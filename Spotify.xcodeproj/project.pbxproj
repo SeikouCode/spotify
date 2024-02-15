@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		76B133A2C5DC46F5AE230646 /* Pods_Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BEBFEE400EB89BAD63FCEF4 /* Pods_Spotify.framework */; };
-		C92D55C82B7E3AB2001BB7BE /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D55C72B7E3AB2001BB7BE /* MainViewModel.swift */; };
+		C92D55C82B7E3AB2001BB7BE /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D55C72B7E3AB2001BB7BE /* HomeViewModel.swift */; };
+		C92D55D02B7E9B3B001BB7BE /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D55CF2B7E9B3B001BB7BE /* TabBarViewController.swift */; };
+		C92D55D42B7E9CA1001BB7BE /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D55D32B7E9CA1001BB7BE /* SearchViewController.swift */; };
+		C92D55D62B7E9CB6001BB7BE /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D55D52B7E9CB6001BB7BE /* LibraryViewController.swift */; };
 		C966AE242B7DF939001F2333 /* RecommendedMusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C966AE232B7DF939001F2333 /* RecommendedMusicData.swift */; };
 		C966AE262B7DFA6C001F2333 /* RecommendedMusicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C966AE252B7DFA6C001F2333 /* RecommendedMusicTableViewCell.swift */; };
 		C9937E002B7DEF9800DFDAAC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9937DFF2B7DEF9800DFDAAC /* AppDelegate.swift */; };
 		C9937E022B7DEF9800DFDAAC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9937E012B7DEF9800DFDAAC /* SceneDelegate.swift */; };
-		C9937E042B7DEF9800DFDAAC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9937E032B7DEF9800DFDAAC /* MainViewController.swift */; };
+		C9937E042B7DEF9800DFDAAC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9937E032B7DEF9800DFDAAC /* HomeViewController.swift */; };
 		C9937E092B7DEF9A00DFDAAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9937E082B7DEF9A00DFDAAC /* Assets.xcassets */; };
 		C9937E0C2B7DEF9A00DFDAAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9937E0A2B7DEF9A00DFDAAC /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -22,13 +25,16 @@
 		0FE7C0D76ACAA210119B6204 /* Pods-Spotify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Spotify.release.xcconfig"; path = "Target Support Files/Pods-Spotify/Pods-Spotify.release.xcconfig"; sourceTree = "<group>"; };
 		3BEBFEE400EB89BAD63FCEF4 /* Pods_Spotify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Spotify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49682E317DB5EB009592259D /* Pods-Spotify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Spotify.debug.xcconfig"; path = "Target Support Files/Pods-Spotify/Pods-Spotify.debug.xcconfig"; sourceTree = "<group>"; };
-		C92D55C72B7E3AB2001BB7BE /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		C92D55C72B7E3AB2001BB7BE /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		C92D55CF2B7E9B3B001BB7BE /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		C92D55D32B7E9CA1001BB7BE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		C92D55D52B7E9CB6001BB7BE /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		C966AE232B7DF939001F2333 /* RecommendedMusicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedMusicData.swift; sourceTree = "<group>"; };
 		C966AE252B7DFA6C001F2333 /* RecommendedMusicTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedMusicTableViewCell.swift; sourceTree = "<group>"; };
 		C9937DFC2B7DEF9800DFDAAC /* Spotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9937DFF2B7DEF9800DFDAAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9937E012B7DEF9800DFDAAC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C9937E032B7DEF9800DFDAAC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		C9937E032B7DEF9800DFDAAC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		C9937E082B7DEF9A00DFDAAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9937E0B2B7DEF9A00DFDAAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C9937E0D2B7DEF9A00DFDAAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -55,14 +61,82 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		C966AE1F2B7DF71B001F2333 /* MainPage */ = {
+		C92D55C92B7E97CC001BB7BE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C9937DFF2B7DEF9800DFDAAC /* AppDelegate.swift */,
+				C9937E012B7DEF9800DFDAAC /* SceneDelegate.swift */,
+				C9937E082B7DEF9A00DFDAAC /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C92D55CA2B7E989F001BB7BE /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = NetworkManager;
+			sourceTree = "<group>";
+		};
+		C92D55CB2B7E98C0001BB7BE /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				C92D55D22B7E9C5B001BB7BE /* Library */,
+				C92D55D12B7E9C2A001BB7BE /* Search */,
+				C966AE1F2B7DF71B001F2333 /* Home */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		C92D55CC2B7E9932001BB7BE /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				C92D55CD2B7E995B001BB7BE /* AuthManager */,
+				C92D55CA2B7E989F001BB7BE /* NetworkManager */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		C92D55CD2B7E995B001BB7BE /* AuthManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AuthManager;
+			sourceTree = "<group>";
+		};
+		C92D55CE2B7E9AD1001BB7BE /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				C92D55CF2B7E9B3B001BB7BE /* TabBarViewController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		C92D55D12B7E9C2A001BB7BE /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				C92D55D32B7E9CA1001BB7BE /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		C92D55D22B7E9C5B001BB7BE /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				C92D55D52B7E9CB6001BB7BE /* LibraryViewController.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		C966AE1F2B7DF71B001F2333 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				C92D55CE2B7E9AD1001BB7BE /* TabBar */,
 				C966AE222B7DF742001F2333 /* ViewController */,
 				C966AE212B7DF735001F2333 /* ViewModel */,
 				C966AE202B7DF72A001F2333 /* Model */,
 			);
-			path = MainPage;
+			path = Home;
 			sourceTree = "<group>";
 		};
 		C966AE202B7DF72A001F2333 /* Model */ = {
@@ -76,7 +150,7 @@
 		C966AE212B7DF735001F2333 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				C92D55C72B7E3AB2001BB7BE /* MainViewModel.swift */,
+				C92D55C72B7E3AB2001BB7BE /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -84,7 +158,7 @@
 		C966AE222B7DF742001F2333 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				C9937E032B7DEF9800DFDAAC /* MainViewController.swift */,
+				C9937E032B7DEF9800DFDAAC /* HomeViewController.swift */,
 				C966AE252B7DFA6C001F2333 /* RecommendedMusicTableViewCell.swift */,
 			);
 			path = ViewController;
@@ -111,10 +185,9 @@
 		C9937DFE2B7DEF9800DFDAAC /* Spotify */ = {
 			isa = PBXGroup;
 			children = (
-				C966AE1F2B7DF71B001F2333 /* MainPage */,
-				C9937DFF2B7DEF9800DFDAAC /* AppDelegate.swift */,
-				C9937E012B7DEF9800DFDAAC /* SceneDelegate.swift */,
-				C9937E082B7DEF9A00DFDAAC /* Assets.xcassets */,
+				C92D55CC2B7E9932001BB7BE /* Managers */,
+				C92D55CB2B7E98C0001BB7BE /* Modules */,
+				C92D55C92B7E97CC001BB7BE /* Resources */,
 				C9937E0A2B7DEF9A00DFDAAC /* LaunchScreen.storyboard */,
 				C9937E0D2B7DEF9A00DFDAAC /* Info.plist */,
 			);
@@ -244,11 +317,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C966AE262B7DFA6C001F2333 /* RecommendedMusicTableViewCell.swift in Sources */,
-				C9937E042B7DEF9800DFDAAC /* MainViewController.swift in Sources */,
+				C9937E042B7DEF9800DFDAAC /* HomeViewController.swift in Sources */,
+				C92D55D42B7E9CA1001BB7BE /* SearchViewController.swift in Sources */,
 				C966AE242B7DF939001F2333 /* RecommendedMusicData.swift in Sources */,
 				C9937E002B7DEF9800DFDAAC /* AppDelegate.swift in Sources */,
+				C92D55D02B7E9B3B001BB7BE /* TabBarViewController.swift in Sources */,
 				C9937E022B7DEF9800DFDAAC /* SceneDelegate.swift in Sources */,
-				C92D55C82B7E3AB2001BB7BE /* MainViewModel.swift in Sources */,
+				C92D55D62B7E9CB6001BB7BE /* LibraryViewController.swift in Sources */,
+				C92D55C82B7E3AB2001BB7BE /* HomeViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

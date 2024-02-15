@@ -1,5 +1,5 @@
 //
-//  MainViewModel.swift
+//  HomeViewModel.swift
 //  Spotify
 //
 //  Created by Aneli  on 15.02.2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainViewModel {
+class HomeViewModel {
     
     private lazy var items: [RecommendedMusicData] = []
     

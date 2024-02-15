@@ -1,5 +1,5 @@
 //
-//  MainViewController.swift
+//  HomeViewController.swift
 //  Spotify
 //
 //  Created by Aneli  on 15.02.2024.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class HomeViewController: UIViewController {
     
-    var viewModel: MainViewModel?
+    var viewModel: HomeViewModel?
     
     private lazy var recommendedTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -41,7 +41,7 @@ class MainViewController: UIViewController {
         }
     }
     private func setupViewsModel() {
-        viewModel = MainViewModel()
+        viewModel = HomeViewModel()
         viewModel?.loadRecommendedMusic(completion: {
             self.recommendedTableView.reloadData()
         })
@@ -49,7 +49,7 @@ class MainViewController: UIViewController {
     }
                 
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel?.numberOfCells ?? 1
     }
