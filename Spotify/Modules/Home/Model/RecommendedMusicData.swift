@@ -9,6 +9,7 @@ import UIKit
 
 struct RecommendedMusicData {
     let title: String
-    let subTitle: String?
+    let subtitle: String?
     let image: UIImage
 }
+

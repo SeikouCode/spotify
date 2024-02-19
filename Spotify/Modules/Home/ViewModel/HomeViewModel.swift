@@ -6,9 +6,8 @@
 //
 
 import UIKit
-
+ 
 class HomeViewModel {
-    
     private lazy var items: [RecommendedMusicData] = []
     
     var numberOfCells: Int {
@@ -19,25 +18,26 @@ class HomeViewModel {
         return items[indexPath.row]
     }
     
-    func  loadRecommendedMusic(completion: () -> ()) {
+    func loadRecommendedMusics(comletion: () -> ()) {
         let musics: [RecommendedMusicData] = [
             .init(
                 title: "Cozy Coffeehouse",
-                subTitle: nil,
+                subtitle: nil,
                 image: UIImage(named: "music1") ?? UIImage()
-                ),
+            ),
             .init(
                 title: "Cozy",
-                subTitle: "Profile",
+                subtitle: "Profile",
                 image: UIImage(named: "music2") ?? UIImage()
-                ),
+            ),
             .init(
-                title: "Cozy clouds",
-                subTitle: nil,
+                title: "cozy clouds",
+                subtitle: nil,
                 image: UIImage(named: "music3") ?? UIImage()
-                )
-            ]
+            )
+        ]
+        
         self.items = musics
-        completion()
+        comletion()
     }
 }

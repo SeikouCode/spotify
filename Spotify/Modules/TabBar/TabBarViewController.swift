@@ -44,5 +44,6 @@ class TabBarViewController: UITabBarController {
         setViewControllers(viewControllers, animated: false)
         tabBar.tintColor = .white
         tabBar.barTintColor = .white
+        tabBar.backgroundColor = .black
     }
 }

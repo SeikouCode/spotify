@@ -8,7 +8,7 @@
 import UIKit
 
 class RecommendedMusicTableViewCell: UITableViewCell {
-    private enum Consraints {
+    private enum Constraints {
         static let musicImageSize: CGFloat = 48
         static let musicImageCornerRadius: CGFloat = 24
         static let textsStackViewSpacing: CGFloat = 2
@@ -17,14 +17,14 @@ class RecommendedMusicTableViewCell: UITableViewCell {
     
     private let musicImage: UIImageView = {
         let image = UIImageView()
-        image.layer.cornerRadius = Consraints.musicImageCornerRadius
+        image.layer.cornerRadius = Constraints.musicImageCornerRadius
         image.contentMode = .scaleAspectFill
         return image
     }()
     
     private let textsStackView: UIStackView = {
         let stack = UIStackView()
-        stack.spacing = Consraints.textsStackViewSpacing
+        stack.spacing = Constraints.textsStackViewSpacing
         stack.distribution = .fillEqually
         stack.alignment = .fill
         stack.axis = .vertical
@@ -39,11 +39,11 @@ class RecommendedMusicTableViewCell: UITableViewCell {
         return label
     }()
     
-    private var subTitleLabel: UILabel = {
+    private var subtitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = .white
         label.textAlignment = .left
+        label.textColor = .white
         return label
     }()
     
@@ -64,13 +64,13 @@ class RecommendedMusicTableViewCell: UITableViewCell {
     }
     
     func configure(data: RecommendedMusicData?) {
-        guard let data else { return }
+        guard let data = data else { return }
         self.musicImage.image = data.image
         self.titleLabel.text = data.title
-        if let subTitle = data.subTitle {
-            self.subTitleLabel.text = subTitle
+        if let subtitle = data.subtitle {
+            self.subtitleLabel.text = subtitle
         } else {
-            subTitleLabel.isHidden = true
+            subtitleLabel.isHidden = true
         }
     }
     
@@ -78,7 +78,7 @@ class RecommendedMusicTableViewCell: UITableViewCell {
         contentView.backgroundColor = .black
         selectionStyle = .none
         
-        [titleLabel, subTitleLabel].forEach {
+        [titleLabel, subtitleLabel].forEach {
             textsStackView.addArrangedSubview($0)
         }
         
@@ -89,7 +89,7 @@ class RecommendedMusicTableViewCell: UITableViewCell {
         musicImage.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(12)
             make.top.bottom.equalToSuperview().inset(8)
-            make.size.equalTo(Consraints.musicImageSize)
+            make.size.equalTo(Constraints.musicImageSize)
         }
         
         textsStackView.snp.makeConstraints { make in
@@ -100,7 +100,9 @@ class RecommendedMusicTableViewCell: UITableViewCell {
         rightView.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(12)
             make.centerY.equalToSuperview()
-            make.size.equalTo(Consraints.rightViewSize)
+            make.size.equalTo(Constraints.rightViewSize)
         }
     }
 }
+
+

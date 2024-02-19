@@ -18,7 +18,10 @@ class HomeViewController: UIViewController {
         tableView.estimatedRowHeight = 64
         tableView.rowHeight = 64
         tableView.separatorStyle = .none
-        tableView.register(RecommendedMusicTableViewCell.self, forCellReuseIdentifier: "RecommendedMusicTableViewCell")
+        tableView.register(
+            RecommendedMusicTableViewCell.self,
+            forCellReuseIdentifier: "RecommendedMusicTableViewCell"
+        )
         tableView.backgroundColor = .clear
         return tableView
     }()
@@ -26,12 +29,12 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        setupViewsModel()
+        setupViewModel()
     }
     
     private func setupViews() {
         view.backgroundColor = .black
-        title = "Home"
+        title = "Главная"
         navigationController?.navigationBar.tintColor = .white
         
         view.addSubview(recommendedTableView)
@@ -40,24 +43,25 @@ class HomeViewController: UIViewController {
             make.left.right.bottom.equalToSuperview()
         }
     }
-    private func setupViewsModel() {
+    
+    private func setupViewModel() {
         viewModel = HomeViewModel()
-        viewModel?.loadRecommendedMusic(completion: {
+        viewModel?.loadRecommendedMusics(comletion: {
             self.recommendedTableView.reloadData()
         })
-        }
     }
-                
+}
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel?.numberOfCells ?? 1
+        viewModel?.numberOfCells ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = recommendedTableView.dequeueReusableCell(withIdentifier: "RecommendedMusicTableViewCell", for: indexPath) as! RecommendedMusicTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RecomendedMusicTableViewCell", for: indexPath) as! RecommendedMusicTableViewCell
         let data = viewModel?.getCellViewModel(at: indexPath)
         cell.configure(data: data)
         return cell
     }
 }
+
