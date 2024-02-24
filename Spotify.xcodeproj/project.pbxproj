@@ -12,10 +12,13 @@
 		C92D55D02B7E9B3B001BB7BE /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D55CF2B7E9B3B001BB7BE /* TabBarViewController.swift */; };
 		C92D55D42B7E9CA1001BB7BE /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D55D32B7E9CA1001BB7BE /* SearchViewController.swift */; };
 		C92D55D62B7E9CB6001BB7BE /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D55D52B7E9CB6001BB7BE /* LibraryViewController.swift */; };
+		C95879212B8942DA00CCD695 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95879202B8942DA00CCD695 /* AuthResponse.swift */; };
+		C95879252B896D2100CCD695 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95879242B896D2100CCD695 /* AuthViewModel.swift */; };
+		C958792A2B897A7E00CCD695 /* AuthTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95879292B897A7E00CCD695 /* AuthTarget.swift */; };
 		C966AE242B7DF939001F2333 /* RecommendedMusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C966AE232B7DF939001F2333 /* RecommendedMusicData.swift */; };
 		C966AE262B7DFA6C001F2333 /* RecommendedMusicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C966AE252B7DFA6C001F2333 /* RecommendedMusicTableViewCell.swift */; };
 		C988CA2F2B80995F00E5F085 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988CA2E2B80995F00E5F085 /* AuthViewController.swift */; };
-		C988CA322B80998200E5F085 /* WelcomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988CA312B80998200E5F085 /* WelcomViewController.swift */; };
+		C988CA322B80998200E5F085 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988CA312B80998200E5F085 /* WelcomeViewController.swift */; };
 		C988CA342B8099B700E5F085 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988CA332B8099B700E5F085 /* AuthManager.swift */; };
 		C9937E002B7DEF9800DFDAAC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9937DFF2B7DEF9800DFDAAC /* AppDelegate.swift */; };
 		C9937E022B7DEF9800DFDAAC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9937E012B7DEF9800DFDAAC /* SceneDelegate.swift */; };
@@ -32,10 +35,13 @@
 		C92D55CF2B7E9B3B001BB7BE /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		C92D55D32B7E9CA1001BB7BE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		C92D55D52B7E9CB6001BB7BE /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
+		C95879202B8942DA00CCD695 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
+		C95879242B896D2100CCD695 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		C95879292B897A7E00CCD695 /* AuthTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTarget.swift; sourceTree = "<group>"; };
 		C966AE232B7DF939001F2333 /* RecommendedMusicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedMusicData.swift; sourceTree = "<group>"; };
 		C966AE252B7DFA6C001F2333 /* RecommendedMusicTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedMusicTableViewCell.swift; sourceTree = "<group>"; };
 		C988CA2E2B80995F00E5F085 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
-		C988CA312B80998200E5F085 /* WelcomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomViewController.swift; sourceTree = "<group>"; };
+		C988CA312B80998200E5F085 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		C988CA332B8099B700E5F085 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		C9937DFC2B7DEF9800DFDAAC /* Spotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9937DFF2B7DEF9800DFDAAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -138,6 +144,64 @@
 			path = Library;
 			sourceTree = "<group>";
 		};
+		C958791D2B89425000CCD695 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				C95879272B897A4B00CCD695 /* Plugins */,
+				C95879262B897A2F00CCD695 /* Targets */,
+				C958791E2B89428C00CCD695 /* Data */,
+				C92D55CC2B7E9932001BB7BE /* Managers */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		C958791E2B89428C00CCD695 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C958791F2B8942BB00CCD695 /* Models */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		C958791F2B8942BB00CCD695 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C95879202B8942DA00CCD695 /* AuthResponse.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C95879222B896CAA00CCD695 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C988CA2E2B80995F00E5F085 /* AuthViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C95879232B896CC300CCD695 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C95879242B896D2100CCD695 /* AuthViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C95879262B897A2F00CCD695 /* Targets */ = {
+			isa = PBXGroup;
+			children = (
+				C95879292B897A7E00CCD695 /* AuthTarget.swift */,
+			);
+			path = Targets;
+			sourceTree = "<group>";
+		};
+		C95879272B897A4B00CCD695 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Plugins;
+			sourceTree = "<group>";
+		};
 		C966AE1F2B7DF71B001F2333 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,7 +240,8 @@
 		C988CA2D2B80994300E5F085 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				C988CA2E2B80995F00E5F085 /* AuthViewController.swift */,
+				C95879232B896CC300CCD695 /* ViewModel */,
+				C95879222B896CAA00CCD695 /* View */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -184,7 +249,7 @@
 		C988CA302B80996C00E5F085 /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
-				C988CA312B80998200E5F085 /* WelcomViewController.swift */,
+				C988CA312B80998200E5F085 /* WelcomeViewController.swift */,
 			);
 			path = Welcome;
 			sourceTree = "<group>";
@@ -210,7 +275,7 @@
 		C9937DFE2B7DEF9800DFDAAC /* Spotify */ = {
 			isa = PBXGroup;
 			children = (
-				C92D55CC2B7E9932001BB7BE /* Managers */,
+				C958791D2B89425000CCD695 /* Core */,
 				C92D55CB2B7E98C0001BB7BE /* Modules */,
 				C92D55C92B7E97CC001BB7BE /* Resources */,
 				C9937E0A2B7DEF9A00DFDAAC /* LaunchScreen.storyboard */,
@@ -245,6 +310,8 @@
 			dependencies = (
 			);
 			name = Spotify;
+			packageProductDependencies = (
+			);
 			productName = Spotify;
 			productReference = C9937DFC2B7DEF9800DFDAAC /* Spotify.app */;
 			productType = "com.apple.product-type.application";
@@ -273,6 +340,8 @@
 				Base,
 			);
 			mainGroup = C9937DF32B7DEF9800DFDAAC;
+			packageReferences = (
+			);
 			productRefGroup = C9937DFD2B7DEF9800DFDAAC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -341,15 +410,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C95879212B8942DA00CCD695 /* AuthResponse.swift in Sources */,
 				C966AE262B7DFA6C001F2333 /* RecommendedMusicTableViewCell.swift in Sources */,
 				C988CA342B8099B700E5F085 /* AuthManager.swift in Sources */,
 				C9937E042B7DEF9800DFDAAC /* HomeViewController.swift in Sources */,
 				C988CA2F2B80995F00E5F085 /* AuthViewController.swift in Sources */,
-				C988CA322B80998200E5F085 /* WelcomViewController.swift in Sources */,
+				C988CA322B80998200E5F085 /* WelcomeViewController.swift in Sources */,
+				C958792A2B897A7E00CCD695 /* AuthTarget.swift in Sources */,
 				C92D55D42B7E9CA1001BB7BE /* SearchViewController.swift in Sources */,
 				C966AE242B7DF939001F2333 /* RecommendedMusicData.swift in Sources */,
 				C9937E002B7DEF9800DFDAAC /* AppDelegate.swift in Sources */,
 				C92D55D02B7E9B3B001BB7BE /* TabBarViewController.swift in Sources */,
+				C95879252B896D2100CCD695 /* AuthViewModel.swift in Sources */,
 				C9937E022B7DEF9800DFDAAC /* SceneDelegate.swift in Sources */,
 				C92D55D62B7E9CB6001BB7BE /* LibraryViewController.swift in Sources */,
 				C92D55C82B7E3AB2001BB7BE /* HomeViewModel.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  WelcomViewController.swift
+//  WelcomeViewController.swift
 //  Spotify
 //
 //  Created by Aneli  on 17.02.2024.
@@ -8,7 +8,7 @@
 import UIKit
 
 class WelcomeViewController: UIViewController {
-
+    
     // MARK: - Properties
     
     private lazy var signInButton: UIButton = {
@@ -45,7 +45,32 @@ class WelcomeViewController: UIViewController {
     @objc
     private func didTapSignIn() {
         let controller = AuthViewController()
+        controller.completionHandler = { [weak self] success in
+            self?.handleSignIn(success: success)
+        }
         controller.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(controller, animated: true)
+    }
+
+    private func handleSignIn(success: Bool) {
+        guard success else {
+            
+            print("Authentication failed.")
+            
+            let alert = UIAlertController(
+                title: "Oops",
+                message: "Something went wrong signing in",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+            present(alert, animated: true)
+            return
+        }
+        
+        print("Authentication successful.")
+        
+        let tabBarViewController = TabBarViewController()
+        tabBarViewController.modalPresentationStyle = .fullScreen
+        present(tabBarViewController, animated: true)
     }
 }

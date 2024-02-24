@@ -34,7 +34,7 @@ class HomeViewController: UIViewController {
     
     private func setupViews() {
         view.backgroundColor = .black
-        title = "Главная"
+        title = "Home"
         navigationController?.navigationBar.tintColor = .white
         
         view.addSubview(recommendedTableView)
@@ -54,11 +54,11 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel?.numberOfCells ?? 0
+        viewModel?.numberOfCells ?? 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "RecomendedMusicTableViewCell", for: indexPath) as! RecommendedMusicTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RecommendedMusicTableViewCell", for: indexPath) as! RecommendedMusicTableViewCell
         let data = viewModel?.getCellViewModel(at: indexPath)
         cell.configure(data: data)
         return cell
