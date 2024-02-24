@@ -10,6 +10,7 @@ target 'Spotify' do
 pod 'SnapKit', '~> 5.0.0'
 pod 'Moya', '~> 15.0'
 pod 'Alamofire'
+pod 'KeychainSwift'
 
 
   post_install do |installer|

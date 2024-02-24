@@ -7,11 +7,13 @@
 
 import Foundation
 import Moya
+import KeychainSwift
 
 final class AuthManager {
     static let shared = AuthManager()
     
     private let provider = MoyaProvider<AuthTarget>()
+    private let keychain = KeychainSwift()
     
     struct Constants {
         static let clientId = "773dcf457e944a6599986eb21c7b4f7a"
@@ -44,19 +46,49 @@ final class AuthManager {
     private init() {}
     
     private var accessToken: String? {
-        return UserDefaults.standard.string(forKey: "accessToken")
+        get {
+            return keychain.get("accessToken")
+        }
+        set {
+            if let newValue = newValue {
+                keychain.set(newValue, forKey: "accessToken")
+            } else {
+                keychain.delete("accessToken")
+            }
+        }
     }
     
     private var refreshToken: String? {
-        return UserDefaults.standard.string(forKey: "refreshToken")
+        get {
+            return keychain.get("refreshToken")
+        }
+        set {
+            if let newValue = newValue {
+                keychain.set(newValue, forKey: "refreshToken")
+            } else {
+                keychain.delete("refreshToken")
+            }
+        }
     }
     
     private var tokenExpirationDate: Date? {
-        return UserDefaults.standard.object(forKey: "expirationDate") as? Date
+        get {
+            if let dateString = keychain.get("expirationDate"), let date = ISO8601DateFormatter().date(from: dateString) {
+                return date
+            }
+            return nil
+        }
+        set {
+            if let newValue = newValue {
+                keychain.set(ISO8601DateFormatter().string(from: newValue), forKey: "expirationDate")
+            } else {
+                keychain.delete("expirationDate")
+            }
+        }
     }
     
     private var shouldRefreshToken: Bool {
-        guard let tokenExpirationDate else { return false }
+        guard let tokenExpirationDate = tokenExpirationDate else { return false }
         let currentDate = Date()
         let fiveMinutes: TimeInterval = 300
         return currentDate.addingTimeInterval(fiveMinutes) >= tokenExpirationDate
@@ -83,19 +115,40 @@ final class AuthManager {
     }
     
     private func refreshIfNeeded() {
-        
+        if shouldRefreshToken {
+            guard let refreshToken = refreshToken else { return }
+            
+            let baseURL = "https://accounts.spotify.com/api/token"
+            let parameters: [String: Any] = [
+                "grant_type": "refresh_token",
+                "refresh_token": refreshToken,
+                "client_id": Constants.clientId
+            ]
+            
+            provider.request(.refreshToken(parameters: parameters)) { [weak self] result in
+                switch result {
+                case .success(let response):
+                    guard let result = try? response.map(AuthResponse.self) else {
+                        // Handle error
+                        return
+                    }
+                    self?.cacheToken(result: result)
+                    
+                case .failure(let error):
+                    print("Token refresh failed: \(error)")
+                }
+            }
+        }
     }
+
     
     private func cacheToken(result: AuthResponse) {
-        UserDefaults.standard.setValue(result.accessToken, forKey: "accessToken")
+        accessToken = result.accessToken
         
         if let refreshToken = result.refreshToken {
-            UserDefaults.standard.setValue(refreshToken, forKey: "refreshToken")
+            self.refreshToken = refreshToken
         }
         
-        UserDefaults.standard.setValue(
-            Date().addingTimeInterval(TimeInterval(result.expiresIn)),
-            forKey: "expirationDate"
-        )
+        tokenExpirationDate = Date().addingTimeInterval(TimeInterval(result.expiresIn))
     }
 }
