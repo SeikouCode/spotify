@@ -16,8 +16,7 @@ class AuthViewController: UIViewController {
     private var viewModel: AuthViewModel?
     
     // MARK: - UI Components
-    
-    
+
     private let webView: WKWebView = {
         let prefs = WKWebpagePreferences()
         prefs.allowsContentJavaScript = true

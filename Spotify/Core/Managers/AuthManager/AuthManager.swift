@@ -114,7 +114,7 @@ final class AuthManager {
         }
     }
     
-    private func refreshIfNeeded() {
+    private func refreshAccessToken() {
         if shouldRefreshToken {
             guard let refreshToken = refreshToken else { return }
             
@@ -128,10 +128,7 @@ final class AuthManager {
             provider.request(.refreshToken(parameters: parameters)) { [weak self] result in
                 switch result {
                 case .success(let response):
-                    guard let result = try? response.map(AuthResponse.self) else {
-                        // Handle error
-                        return
-                    }
+                    guard let result = try? response.map(AuthResponse.self) else { return }
                     self?.cacheToken(result: result)
                     
                 case .failure(let error):

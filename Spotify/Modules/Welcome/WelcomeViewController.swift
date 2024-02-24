@@ -54,9 +54,6 @@ class WelcomeViewController: UIViewController {
 
     private func handleSignIn(success: Bool) {
         guard success else {
-            
-            print("Authentication failed.")
-            
             let alert = UIAlertController(
                 title: "Oops",
                 message: "Something went wrong signing in",
@@ -66,9 +63,6 @@ class WelcomeViewController: UIViewController {
             present(alert, animated: true)
             return
         }
-        
-        print("Authentication successful.")
-        
         let tabBarViewController = TabBarViewController()
         tabBarViewController.modalPresentationStyle = .fullScreen
         present(tabBarViewController, animated: true)
