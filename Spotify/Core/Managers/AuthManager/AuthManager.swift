@@ -12,27 +12,28 @@ import KeychainSwift
 final class AuthManager {
     static let shared = AuthManager()
     
-    private let provider = MoyaProvider<AuthTarget>()
+// MARK: - Properties
+    
+    private let provider = MoyaProvider<AuthTarget>(
+        plugins: [
+            NetworkLoggerPlugin(configuration: NetworkLoggerPluginConfig.prettyLogging),
+            LoggerPlugin()
+        ]
+    )
+    
     private let keychain = KeychainSwift()
     
-    struct Constants {
-        static let clientId = "773dcf457e944a6599986eb21c7b4f7a"
-        static let clientSecret = "e87b3070700f4557a82a9962afa2eb7b"
-        static let scopes = "user-read-private"
-        static let redirectUri = "https://open.spotify.com/"
-    }
+// MARK: - Computed Properties
     
     public var signInURL: URL? {
-        
-        let baseURL = "https://accounts.spotify.com/authorize"
-        
+        let baseURL = GlobalConstants.baseURL + "/authorize"
         var components = URLComponents(string: baseURL)
         
         components?.queryItems = [
             URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "client_id", value: Constants.clientId),
-            URLQueryItem(name: "scope", value: Constants.scopes),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectUri),
+            URLQueryItem(name: "client_id", value: GlobalConstants.AuthAPI.clientId),
+            URLQueryItem(name: "scope", value: GlobalConstants.AuthAPI.scopes),
+            URLQueryItem(name: "redirect_uri", value: GlobalConstants.AuthAPI.redirectUri),
             URLQueryItem(name: "show_dialog", value: "TRUE"),
         ]
         
@@ -43,7 +44,11 @@ final class AuthManager {
         return accessToken != nil
     }
     
+// MARK: - Initializer
+    
     private init() {}
+    
+// MARK: - Private Properties
     
     private var accessToken: String? {
         get {
@@ -94,25 +99,29 @@ final class AuthManager {
         return currentDate.addingTimeInterval(fiveMinutes) >= tokenExpirationDate
     }
     
+// MARK: - Public Methods
+    
     public func exchangeCodeForToken(
         code: String,
-        completion: @escaping ((Bool) -> Void)
+        completion: @escaping ((APIResult<Void>) -> ())
     ) {
         provider.request(.getAccessToken(code: code)) { [weak self] result in
             switch result {
             case .success(let response):
                 guard let result = try? response.map(AuthResponse.self) else {
-                    completion(false)
+                    completion(.failure(.incorrectJSON))
                     return
                 }
                 self?.cacheToken(result: result)
-                completion(true)
+                completion(.success(()))
                 
             case .failure(let error):
-                completion(false)
+                completion(.failure(.failedWith(error: error.localizedDescription)))
             }
         }
     }
+    
+// MARK: - Private Methods
     
     private func refreshAccessToken() {
         if shouldRefreshToken {
@@ -122,7 +131,7 @@ final class AuthManager {
             let parameters: [String: Any] = [
                 "grant_type": "refresh_token",
                 "refresh_token": refreshToken,
-                "client_id": Constants.clientId
+                "client_id": GlobalConstants.AuthAPI.clientId
             ]
             
             provider.request(.refreshToken(parameters: parameters)) { [weak self] result in
@@ -137,7 +146,6 @@ final class AuthManager {
             }
         }
     }
-
     
     private func cacheToken(result: AuthResponse) {
         accessToken = result.accessToken

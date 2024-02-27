@@ -7,9 +7,13 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: BaseViewController {
+    
+    // MARK: - Properties
     
     var viewModel: HomeViewModel?
+    
+    // MARK: - UI Elements
     
     private lazy var recommendedTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -26,16 +30,19 @@ class HomeViewController: UIViewController {
         return tableView
     }()
     
+    // MARK: - Lifecycle Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupViewModel()
     }
     
+    // MARK: - Private Methods
+    
     private func setupViews() {
         view.backgroundColor = .black
         title = "Home"
-        navigationController?.navigationBar.tintColor = .white
         
         view.addSubview(recommendedTableView)
         recommendedTableView.snp.makeConstraints { make in
@@ -52,6 +59,8 @@ class HomeViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
+
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel?.numberOfCells ?? 1
@@ -64,4 +73,3 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
 }
-

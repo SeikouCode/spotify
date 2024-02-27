@@ -12,6 +12,12 @@
 		C92D55D02B7E9B3B001BB7BE /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D55CF2B7E9B3B001BB7BE /* TabBarViewController.swift */; };
 		C92D55D42B7E9CA1001BB7BE /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D55D32B7E9CA1001BB7BE /* SearchViewController.swift */; };
 		C92D55D62B7E9CB6001BB7BE /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92D55D52B7E9CB6001BB7BE /* LibraryViewController.swift */; };
+		C950616B2B8DADBE007F0B9E /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950616A2B8DADBE007F0B9E /* GlobalConstants.swift */; };
+		C950616D2B8DC2F9007F0B9E /* NetworkLoggerPluginConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950616C2B8DC2F9007F0B9E /* NetworkLoggerPluginConfig.swift */; };
+		C950616F2B8DC81C007F0B9E /* LoggerPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950616E2B8DC81C007F0B9E /* LoggerPlugin.swift */; };
+		C95061722B8DCE2F007F0B9E /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95061712B8DCE2F007F0B9E /* APIResult.swift */; };
+		C95061742B8DDFD3007F0B9E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95061732B8DDFD3007F0B9E /* BaseViewController.swift */; };
+		C95061762B8DE145007F0B9E /* BaseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95061752B8DE145007F0B9E /* BaseTargetType.swift */; };
 		C95879212B8942DA00CCD695 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95879202B8942DA00CCD695 /* AuthResponse.swift */; };
 		C95879252B896D2100CCD695 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95879242B896D2100CCD695 /* AuthViewModel.swift */; };
 		C958792A2B897A7E00CCD695 /* AuthTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95879292B897A7E00CCD695 /* AuthTarget.swift */; };
@@ -35,6 +41,12 @@
 		C92D55CF2B7E9B3B001BB7BE /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		C92D55D32B7E9CA1001BB7BE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		C92D55D52B7E9CB6001BB7BE /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
+		C950616A2B8DADBE007F0B9E /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
+		C950616C2B8DC2F9007F0B9E /* NetworkLoggerPluginConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLoggerPluginConfig.swift; sourceTree = "<group>"; };
+		C950616E2B8DC81C007F0B9E /* LoggerPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerPlugin.swift; sourceTree = "<group>"; };
+		C95061712B8DCE2F007F0B9E /* APIResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
+		C95061732B8DDFD3007F0B9E /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		C95061752B8DE145007F0B9E /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
 		C95879202B8942DA00CCD695 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		C95879242B896D2100CCD695 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		C95879292B897A7E00CCD695 /* AuthTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTarget.swift; sourceTree = "<group>"; };
@@ -106,6 +118,7 @@
 		C92D55CC2B7E9932001BB7BE /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				C95061702B8DCE12007F0B9E /* APIResult */,
 				C92D55CD2B7E995B001BB7BE /* AuthManager */,
 				C92D55CA2B7E989F001BB7BE /* NetworkManager */,
 			);
@@ -144,6 +157,22 @@
 			path = Library;
 			sourceTree = "<group>";
 		};
+		C95061692B8DAD95007F0B9E /* GlobalData */ = {
+			isa = PBXGroup;
+			children = (
+				C950616A2B8DADBE007F0B9E /* GlobalConstants.swift */,
+			);
+			path = GlobalData;
+			sourceTree = "<group>";
+		};
+		C95061702B8DCE12007F0B9E /* APIResult */ = {
+			isa = PBXGroup;
+			children = (
+				C95061712B8DCE2F007F0B9E /* APIResult.swift */,
+			);
+			path = APIResult;
+			sourceTree = "<group>";
+		};
 		C958791D2B89425000CCD695 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,6 +187,7 @@
 		C958791E2B89428C00CCD695 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				C95061692B8DAD95007F0B9E /* GlobalData */,
 				C958791F2B8942BB00CCD695 /* Models */,
 			);
 			path = Data;
@@ -191,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				C95879292B897A7E00CCD695 /* AuthTarget.swift */,
+				C95061752B8DE145007F0B9E /* BaseTargetType.swift */,
 			);
 			path = Targets;
 			sourceTree = "<group>";
@@ -198,6 +229,8 @@
 		C95879272B897A4B00CCD695 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				C950616C2B8DC2F9007F0B9E /* NetworkLoggerPluginConfig.swift */,
+				C950616E2B8DC81C007F0B9E /* LoggerPlugin.swift */,
 			);
 			path = Plugins;
 			sourceTree = "<group>";
@@ -233,6 +266,7 @@
 			children = (
 				C9937E032B7DEF9800DFDAAC /* HomeViewController.swift */,
 				C966AE252B7DFA6C001F2333 /* RecommendedMusicTableViewCell.swift */,
+				C95061732B8DDFD3007F0B9E /* BaseViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -412,7 +446,10 @@
 			files = (
 				C95879212B8942DA00CCD695 /* AuthResponse.swift in Sources */,
 				C966AE262B7DFA6C001F2333 /* RecommendedMusicTableViewCell.swift in Sources */,
+				C95061722B8DCE2F007F0B9E /* APIResult.swift in Sources */,
+				C950616F2B8DC81C007F0B9E /* LoggerPlugin.swift in Sources */,
 				C988CA342B8099B700E5F085 /* AuthManager.swift in Sources */,
+				C95061742B8DDFD3007F0B9E /* BaseViewController.swift in Sources */,
 				C9937E042B7DEF9800DFDAAC /* HomeViewController.swift in Sources */,
 				C988CA2F2B80995F00E5F085 /* AuthViewController.swift in Sources */,
 				C988CA322B80998200E5F085 /* WelcomeViewController.swift in Sources */,
@@ -422,8 +459,11 @@
 				C9937E002B7DEF9800DFDAAC /* AppDelegate.swift in Sources */,
 				C92D55D02B7E9B3B001BB7BE /* TabBarViewController.swift in Sources */,
 				C95879252B896D2100CCD695 /* AuthViewModel.swift in Sources */,
+				C950616D2B8DC2F9007F0B9E /* NetworkLoggerPluginConfig.swift in Sources */,
 				C9937E022B7DEF9800DFDAAC /* SceneDelegate.swift in Sources */,
+				C95061762B8DE145007F0B9E /* BaseTargetType.swift in Sources */,
 				C92D55D62B7E9CB6001BB7BE /* LibraryViewController.swift in Sources */,
+				C950616B2B8DADBE007F0B9E /* GlobalConstants.swift in Sources */,
 				C92D55C82B7E3AB2001BB7BE /* HomeViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

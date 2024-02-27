@@ -8,13 +8,16 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
-    //MARK: - Lifecycle
+    
+//MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
     }
-    // MARK: - SetupTabBar
+    
+// MARK: - SetupTabBar
+    
     private func setupTabBar() {
         let homeViewController = UINavigationController(rootViewController: HomeViewController())
         let searchViewController = UINavigationController(rootViewController:  SearchViewController())

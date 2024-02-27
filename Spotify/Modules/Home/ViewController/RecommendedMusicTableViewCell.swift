@@ -8,12 +8,17 @@
 import UIKit
 
 class RecommendedMusicTableViewCell: UITableViewCell {
+
+// MARK: - Constants
+    
     private enum Constraints {
         static let musicImageSize: CGFloat = 48
         static let musicImageCornerRadius: CGFloat = 24
         static let textsStackViewSpacing: CGFloat = 2
         static let rightViewSize: CGFloat = 24
     }
+    
+// MARK: - Properties
     
     private let musicImage: UIImageView = {
         let image = UIImageView()
@@ -54,6 +59,8 @@ class RecommendedMusicTableViewCell: UITableViewCell {
         return image
     }()
     
+// MARK: - Initializers
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -62,6 +69,8 @@ class RecommendedMusicTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+// MARK: - Public Methods
     
     func configure(data: RecommendedMusicData?) {
         guard let data = data else { return }
@@ -73,6 +82,8 @@ class RecommendedMusicTableViewCell: UITableViewCell {
             subtitleLabel.isHidden = true
         }
     }
+    
+// MARK: - Private Methods
     
     private func setupViews() {
         contentView.backgroundColor = .black
@@ -104,5 +115,4 @@ class RecommendedMusicTableViewCell: UITableViewCell {
         }
     }
 }
-
 

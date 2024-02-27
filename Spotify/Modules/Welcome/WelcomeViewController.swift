@@ -60,7 +60,7 @@ class WelcomeViewController: UIViewController {
                 preferredStyle: .alert
             )
             alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
-            present(alert, animated: true)
+            self.present(alert, animated: true, completion: nil)
             return
         }
         let tabBarViewController = TabBarViewController()

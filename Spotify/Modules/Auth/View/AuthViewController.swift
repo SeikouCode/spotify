@@ -10,12 +10,12 @@ import WebKit
 
 class AuthViewController: UIViewController {
 
-    // MARK: - Properties
+// MARK: - Properties
     
     public var completionHandler: ((Bool) -> Void)?
     private var viewModel: AuthViewModel?
     
-    // MARK: - UI Components
+// MARK: - UI Components
 
     private let webView: WKWebView = {
         let prefs = WKWebpagePreferences()
@@ -27,7 +27,7 @@ class AuthViewController: UIViewController {
     }()
     
     
-    // MARK: - Lifecycle
+// MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +41,7 @@ class AuthViewController: UIViewController {
         webView.frame = view.bounds
     }
     
-    // MARK: - Private methods
+// MARK: - Private methods
     
     private func setupViewModel() {
         viewModel = AuthViewModel()
