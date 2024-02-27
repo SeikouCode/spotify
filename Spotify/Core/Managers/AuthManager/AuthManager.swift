@@ -12,22 +12,21 @@ import KeychainSwift
 final class AuthManager {
     static let shared = AuthManager()
     
-// MARK: - Properties
-    
+    // MARK: - Properties
     private let provider = MoyaProvider<AuthTarget>(
         plugins: [
             NetworkLoggerPlugin(configuration: NetworkLoggerPluginConfig.prettyLogging),
             LoggerPlugin()
         ]
     )
-    
     private let keychain = KeychainSwift()
     
-// MARK: - Computed Properties
+    // MARK: - Computed Properties
     
     public var signInURL: URL? {
-        let baseURL = GlobalConstants.baseURL + "/authorize"
-        var components = URLComponents(string: baseURL)
+        let baseURL =  GlobalConstants.baseURL
+        let authorizeURL = baseURL.appendingPathComponent("authorize")
+        var components = URLComponents(url: authorizeURL, resolvingAgainstBaseURL: false)
         
         components?.queryItems = [
             URLQueryItem(name: "response_type", value: "code"),
@@ -36,20 +35,21 @@ final class AuthManager {
             URLQueryItem(name: "redirect_uri", value: GlobalConstants.AuthAPI.redirectUri),
             URLQueryItem(name: "show_dialog", value: "TRUE"),
         ]
-        
-        return components?.url
+        guard let url = components?.url else {
+            print("Failed to construct URL")
+            return nil
+        }
+        return url
     }
     
     var isSignedIn: Bool {
         return accessToken != nil
     }
     
-// MARK: - Initializer
-    
+    // MARK: - Initializer
     private init() {}
     
-// MARK: - Private Properties
-    
+    // MARK: - Private Properties
     private var accessToken: String? {
         get {
             return keychain.get("accessToken")
@@ -99,8 +99,7 @@ final class AuthManager {
         return currentDate.addingTimeInterval(fiveMinutes) >= tokenExpirationDate
     }
     
-// MARK: - Public Methods
-    
+    // MARK: - Public Methods
     public func exchangeCodeForToken(
         code: String,
         completion: @escaping ((APIResult<Void>) -> ())
@@ -121,8 +120,7 @@ final class AuthManager {
         }
     }
     
-// MARK: - Private Methods
-    
+    // MARK: - Private Methods
     private func refreshAccessToken() {
         if shouldRefreshToken {
             guard let refreshToken = refreshToken else { return }
@@ -157,3 +155,4 @@ final class AuthManager {
         tokenExpirationDate = Date().addingTimeInterval(TimeInterval(result.expiresIn))
     }
 }
+

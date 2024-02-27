@@ -8,36 +8,42 @@
 import Foundation
 import Moya
 
-enum AuthTarget: BaseTargetType {
-    var baseAPIURL: URL {
-        
-        return URL(string: GlobalConstants.baseURL + "/api")!
-    }
-    
-    var baseHeaders: [String : String] {
-        
-        var headers = [String : String]()
-        let authString = "\(GlobalConstants.AuthAPI.clientId):\(GlobalConstants.AuthAPI.clientSecret)"
-        guard let authData = authString.data(using: .utf8) else {
-            print("Failure to get base64")
-            return [:]
-        }
-        let base64AuthString = authData.base64EncodedString()
-        
-        headers["Authorization"] = "Basic \(base64AuthString)"
-        headers["Content-Type"] = "application/x-www-form-urlencoded"
-        return headers
-    }
-    
+enum AuthTarget {
     case getAccessToken(code: String)
     case refreshToken(parameters: [String: Any])
+}
+
+extension AuthTarget {
+    var getAccessTokenCode: String? {
+        switch self {
+        case .getAccessToken(let code):
+            return code
+        default:
+            return nil
+        }
+    }
+    
+    var refreshTokenParameters: [String: Any]? {
+        switch self {
+        case .refreshToken(let parameters):
+            return parameters
+        default:
+            return nil
+        }
+    }
+}
+
+extension AuthTarget: TargetType {
+    var baseURL: URL {
+        return GlobalConstants.baseURL.appendingPathComponent("/api")
+    }
     
     var path: String {
         switch self {
-            case .getAccessToken:
-                return "/token"
-            case .refreshToken:
-                return "/token"
+        case .getAccessToken:
+            return "/token"
+        case .refreshToken:
+            return "/token"
         }
     }
     
@@ -47,20 +53,34 @@ enum AuthTarget: BaseTargetType {
     
     var task: Moya.Task {
         switch self {
-            case .getAccessToken(let code):
-                return .requestParameters(
-                    parameters: [
-                        "grant_type": "authorization_code",
-                        "code": code,
-                        "redirect_uri": GlobalConstants.AuthAPI.redirectUri
-                    ],
-                    encoding: URLEncoding.default
-                )
-            case .refreshToken(let parameters):
-                return .requestParameters(
-                    parameters: parameters,
-                    encoding: URLEncoding.default
+        case .getAccessToken(let code):
+            return .requestParameters(
+                parameters: [
+                    "grant_type": "authorization_code",
+                    "code": code,
+                    "redirect_uri": GlobalConstants.AuthAPI.redirectUri
+                ],
+                encoding: URLEncoding.default
+            )
+        case .refreshToken(let parameters):
+            return .requestParameters(
+                parameters: parameters,
+                encoding: URLEncoding.default
             )
         }
+    }
+    
+    var headers: [String : String]? {
+        var headers = [String : String]()
+        let authString = "\(GlobalConstants.AuthAPI.clientId):\(GlobalConstants.AuthAPI.clientSecret)"
+        guard let authData = authString.data(using: .utf8) else {
+            print("Failure to get base64")
+            return nil
+        }
+        let base64AuthString = authData.base64EncodedString()
+        
+        headers["Authorization"] = "Basic \(base64AuthString)"
+        headers["Content-Type"] = "application/x-www-form-urlencoded"
+        return headers
     }
 }
