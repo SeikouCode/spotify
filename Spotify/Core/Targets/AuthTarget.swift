@@ -13,29 +13,9 @@ enum AuthTarget {
     case refreshToken(parameters: [String: Any])
 }
 
-extension AuthTarget {
-    var getAccessTokenCode: String? {
-        switch self {
-        case .getAccessToken(let code):
-            return code
-        default:
-            return nil
-        }
-    }
-    
-    var refreshTokenParameters: [String: Any]? {
-        switch self {
-        case .refreshToken(let parameters):
-            return parameters
-        default:
-            return nil
-        }
-    }
-}
-
 extension AuthTarget: TargetType {
     var baseURL: URL {
-        return GlobalConstants.baseURL.appendingPathComponent("/api")
+        return URL(string: GlobalConstants.baseURL + "/api")!
     }
     
     var path: String {

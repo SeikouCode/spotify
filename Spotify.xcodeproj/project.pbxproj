@@ -17,7 +17,6 @@
 		C950616F2B8DC81C007F0B9E /* LoggerPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C950616E2B8DC81C007F0B9E /* LoggerPlugin.swift */; };
 		C95061722B8DCE2F007F0B9E /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95061712B8DCE2F007F0B9E /* APIResult.swift */; };
 		C95061742B8DDFD3007F0B9E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95061732B8DDFD3007F0B9E /* BaseViewController.swift */; };
-		C95061762B8DE145007F0B9E /* BaseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95061752B8DE145007F0B9E /* BaseTargetType.swift */; };
 		C95879212B8942DA00CCD695 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95879202B8942DA00CCD695 /* AuthResponse.swift */; };
 		C95879252B896D2100CCD695 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95879242B896D2100CCD695 /* AuthViewModel.swift */; };
 		C958792A2B897A7E00CCD695 /* AuthTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95879292B897A7E00CCD695 /* AuthTarget.swift */; };
@@ -46,7 +45,6 @@
 		C950616E2B8DC81C007F0B9E /* LoggerPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerPlugin.swift; sourceTree = "<group>"; };
 		C95061712B8DCE2F007F0B9E /* APIResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
 		C95061732B8DDFD3007F0B9E /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
-		C95061752B8DE145007F0B9E /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
 		C95879202B8942DA00CCD695 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		C95879242B896D2100CCD695 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		C95879292B897A7E00CCD695 /* AuthTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTarget.swift; sourceTree = "<group>"; };
@@ -221,7 +219,6 @@
 			isa = PBXGroup;
 			children = (
 				C95879292B897A7E00CCD695 /* AuthTarget.swift */,
-				C95061752B8DE145007F0B9E /* BaseTargetType.swift */,
 			);
 			path = Targets;
 			sourceTree = "<group>";
@@ -461,7 +458,6 @@
 				C95879252B896D2100CCD695 /* AuthViewModel.swift in Sources */,
 				C950616D2B8DC2F9007F0B9E /* NetworkLoggerPluginConfig.swift in Sources */,
 				C9937E022B7DEF9800DFDAAC /* SceneDelegate.swift in Sources */,
-				C95061762B8DE145007F0B9E /* BaseTargetType.swift in Sources */,
 				C92D55D62B7E9CB6001BB7BE /* LibraryViewController.swift in Sources */,
 				C950616B2B8DADBE007F0B9E /* GlobalConstants.swift in Sources */,
 				C92D55C82B7E3AB2001BB7BE /* HomeViewModel.swift in Sources */,
