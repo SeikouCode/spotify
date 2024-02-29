@@ -127,13 +127,12 @@ final class AuthManager {
         if shouldRefreshToken {
             guard let refreshToken = refreshToken else { return }
             
-            let baseURL = "https://accounts.spotify.com/api/token"
+            let baseURL = GlobalConstants.baseURL + "/api/token"
             let parameters: [String: Any] = [
                 "grant_type": "refresh_token",
                 "refresh_token": refreshToken,
                 "client_id": GlobalConstants.AuthAPI.clientId
             ]
-            
             provider.request(.refreshToken(parameters: parameters)) { [weak self] result in
                 switch result {
                 case .success(let response):
@@ -157,4 +156,3 @@ final class AuthManager {
         tokenExpirationDate = Date().addingTimeInterval(TimeInterval(result.expiresIn))
     }
 }
-
