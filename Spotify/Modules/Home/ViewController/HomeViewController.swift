@@ -42,6 +42,7 @@ class HomeViewController: BaseViewController {
     
     private func setupViews() {
         view.backgroundColor = .black
+        navigationItem.setBackBarItem()
         title = "Home"
         
         view.addSubview(recommendedTableView)
@@ -56,6 +57,18 @@ class HomeViewController: BaseViewController {
         viewModel?.loadRecommendedMusics(comletion: {
             self.recommendedTableView.reloadData()
         })
+    }
+    
+    // MARK: - Actions
+        
+    override func didTapSettings() {
+        let controller = SettingsViewController()
+        controller.title = "Settings"
+        controller.navigationItem.setBackBarItem()
+        controller.navigationItem.largeTitleDisplayMode = .never
+        controller.hidesBottomBarWhenPushed = true
+        controller.navigationItem.backButtonTitle = " "
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
 

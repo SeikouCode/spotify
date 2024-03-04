@@ -21,6 +21,8 @@ final class AuthManager {
         ]
     )
     
+    private var refreshingToken = false
+    private var onRefreshBlocks = [(String) -> Void]()
     private let keychain = KeychainSwift()
     
 // MARK: - Computed Properties
@@ -121,31 +123,70 @@ final class AuthManager {
         }
     }
     
-// MARK: - Private Methods
-    
-    private func refreshAccessToken() {
+    public func withValidToken(completion: @escaping (String) -> Void) {
+        guard !refreshingToken else {
+            onRefreshBlocks.append(completion)
+            return
+        }
+        
         if shouldRefreshToken {
-            guard let refreshToken = refreshToken else { return }
-            
-            let baseURL = GlobalConstants.baseURL + "/api/token"
-            let parameters: [String: Any] = [
-                "grant_type": "refresh_token",
-                "refresh_token": refreshToken,
-                "client_id": GlobalConstants.AuthAPI.clientId
-            ]
-            provider.request(.refreshToken(parameters: parameters)) { [weak self] result in
-                switch result {
-                case .success(let response):
-                    guard let result = try? response.map(AuthResponse.self) else { return }
-                    self?.cacheToken(result: result)
-                    
-                case .failure(let error):
-                    print("Token refresh failed: \(error)")
+            refreshAccessToken { [weak self] success in
+                if success, let accessToken = self?.accessToken {
+                    completion(accessToken)
                 }
+            }
+        } else {
+            guard let accessToken else { return }
+            completion(accessToken)
+        }
+    }
+    
+    public func refreshAccessToken(completion: @escaping (Bool) -> Void) {
+        guard !refreshingToken else {
+            return
+        }
+        
+        guard shouldRefreshToken else {
+            completion(true)
+            return
+        }
+        refreshingToken = true
+        
+        guard let refreshToken else { return }
+        provider.request(.refreshToken(token: refreshToken)) { [weak self] result in
+            self?.refreshingToken = false
+            
+            switch result {
+            case .success(let response):
+                do {
+                    let result = try JSONDecoder().decode(AuthResponse.self, from: response.data)
+                    print("Successfully refreshed")
+                    self?.cacheToken(result: result)
+                    self?.onRefreshBlocks.forEach { $0(result.accessToken) }
+                    self?.onRefreshBlocks.removeAll()
+                    completion(true)
+                } catch {
+                    print(error.localizedDescription)
+                    completion(false)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+                completion(false)
             }
         }
     }
     
+    public func signOut(completion: @escaping (Bool) -> Void) {
+        accessToken = nil
+        refreshToken = nil
+        tokenExpirationDate = nil
+        refreshAccessToken { success in
+            completion(success)
+    }
+}
+    
+// MARK: - Private Methods
+
     private func cacheToken(result: AuthResponse) {
         accessToken = result.accessToken
         

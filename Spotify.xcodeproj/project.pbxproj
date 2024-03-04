@@ -30,6 +30,14 @@
 		C9937E042B7DEF9800DFDAAC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9937E032B7DEF9800DFDAAC /* HomeViewController.swift */; };
 		C9937E092B7DEF9A00DFDAAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9937E082B7DEF9A00DFDAAC /* Assets.xcassets */; };
 		C9937E0C2B7DEF9A00DFDAAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9937E0A2B7DEF9A00DFDAAC /* LaunchScreen.storyboard */; };
+		C99F94D82B933FBD00BD5021 /* BaseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99F94D72B933FBD00BD5021 /* BaseTargetType.swift */; };
+		C99F94DB2B934C0100BD5021 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99F94DA2B934C0100BD5021 /* SettingsViewController.swift */; };
+		C99F94E12B9351A100BD5021 /* UINavigationItemExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99F94E02B9351A100BD5021 /* UINavigationItemExtension.swift */; };
+		C99F94E42B9358AD00BD5021 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99F94E32B9358AD00BD5021 /* ProfileViewController.swift */; };
+		C99F94E82B95ECBD00BD5021 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99F94E72B95ECBD00BD5021 /* SectionModel.swift */; };
+		C99F94EA2B95F61200BD5021 /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99F94E92B95F61200BD5021 /* ProfileManager.swift */; };
+		C99F94EC2B95F6EC00BD5021 /* ProfileTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99F94EB2B95F6EC00BD5021 /* ProfileTargetType.swift */; };
+		C99F94EE2B96010A00BD5021 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99F94ED2B96010A00BD5021 /* ProfileModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +68,14 @@
 		C9937E082B7DEF9A00DFDAAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9937E0B2B7DEF9A00DFDAAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C9937E0D2B7DEF9A00DFDAAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C99F94D72B933FBD00BD5021 /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
+		C99F94DA2B934C0100BD5021 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		C99F94E02B9351A100BD5021 /* UINavigationItemExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItemExtension.swift; sourceTree = "<group>"; };
+		C99F94E32B9358AD00BD5021 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		C99F94E72B95ECBD00BD5021 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
+		C99F94E92B95F61200BD5021 /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
+		C99F94EB2B95F6EC00BD5021 /* ProfileTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTargetType.swift; sourceTree = "<group>"; };
+		C99F94ED2B96010A00BD5021 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +112,7 @@
 		C92D55CA2B7E989F001BB7BE /* NetworkManager */ = {
 			isa = PBXGroup;
 			children = (
+				C99F94E92B95F61200BD5021 /* ProfileManager.swift */,
 			);
 			path = NetworkManager;
 			sourceTree = "<group>";
@@ -103,6 +120,8 @@
 		C92D55CB2B7E98C0001BB7BE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				C99F94E22B93587600BD5021 /* Profile */,
+				C99F94D92B934BDA00BD5021 /* Settings */,
 				C92D55CE2B7E9AD1001BB7BE /* TabBar */,
 				C988CA302B80996C00E5F085 /* Welcome */,
 				C988CA2D2B80994300E5F085 /* Auth */,
@@ -219,6 +238,8 @@
 			isa = PBXGroup;
 			children = (
 				C95879292B897A7E00CCD695 /* AuthTarget.swift */,
+				C99F94D72B933FBD00BD5021 /* BaseTargetType.swift */,
+				C99F94EB2B95F6EC00BD5021 /* ProfileTargetType.swift */,
 			);
 			path = Targets;
 			sourceTree = "<group>";
@@ -306,6 +327,7 @@
 		C9937DFE2B7DEF9800DFDAAC /* Spotify */ = {
 			isa = PBXGroup;
 			children = (
+				C99F94DC2B934EBF00BD5021 /* Sources */,
 				C958791D2B89425000CCD695 /* Core */,
 				C92D55CB2B7E98C0001BB7BE /* Modules */,
 				C92D55C92B7E97CC001BB7BE /* Resources */,
@@ -313,6 +335,56 @@
 				C9937E0D2B7DEF9A00DFDAAC /* Info.plist */,
 			);
 			path = Spotify;
+			sourceTree = "<group>";
+		};
+		C99F94D92B934BDA00BD5021 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C99F94E62B95EC8200BD5021 /* View */,
+				C99F94E52B95EC6700BD5021 /* Model */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		C99F94DC2B934EBF00BD5021 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				C99F94DD2B934EEF00BD5021 /* Extension */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		C99F94DD2B934EEF00BD5021 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C99F94E02B9351A100BD5021 /* UINavigationItemExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		C99F94E22B93587600BD5021 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				C99F94E32B9358AD00BD5021 /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		C99F94E52B95EC6700BD5021 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C99F94E72B95ECBD00BD5021 /* SectionModel.swift */,
+				C99F94ED2B96010A00BD5021 /* ProfileModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C99F94E62B95EC8200BD5021 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C99F94DA2B934C0100BD5021 /* SettingsViewController.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		CE9FDB9F34908ADCAE653D1A /* Frameworks */ = {
@@ -447,17 +519,25 @@
 				C950616F2B8DC81C007F0B9E /* LoggerPlugin.swift in Sources */,
 				C988CA342B8099B700E5F085 /* AuthManager.swift in Sources */,
 				C95061742B8DDFD3007F0B9E /* BaseViewController.swift in Sources */,
+				C99F94E42B9358AD00BD5021 /* ProfileViewController.swift in Sources */,
 				C9937E042B7DEF9800DFDAAC /* HomeViewController.swift in Sources */,
 				C988CA2F2B80995F00E5F085 /* AuthViewController.swift in Sources */,
 				C988CA322B80998200E5F085 /* WelcomeViewController.swift in Sources */,
+				C99F94EC2B95F6EC00BD5021 /* ProfileTargetType.swift in Sources */,
 				C958792A2B897A7E00CCD695 /* AuthTarget.swift in Sources */,
 				C92D55D42B7E9CA1001BB7BE /* SearchViewController.swift in Sources */,
 				C966AE242B7DF939001F2333 /* RecommendedMusicData.swift in Sources */,
+				C99F94E82B95ECBD00BD5021 /* SectionModel.swift in Sources */,
+				C99F94EE2B96010A00BD5021 /* ProfileModel.swift in Sources */,
 				C9937E002B7DEF9800DFDAAC /* AppDelegate.swift in Sources */,
+				C99F94DB2B934C0100BD5021 /* SettingsViewController.swift in Sources */,
+				C99F94EA2B95F61200BD5021 /* ProfileManager.swift in Sources */,
 				C92D55D02B7E9B3B001BB7BE /* TabBarViewController.swift in Sources */,
 				C95879252B896D2100CCD695 /* AuthViewModel.swift in Sources */,
 				C950616D2B8DC2F9007F0B9E /* NetworkLoggerPluginConfig.swift in Sources */,
+				C99F94E12B9351A100BD5021 /* UINavigationItemExtension.swift in Sources */,
 				C9937E022B7DEF9800DFDAAC /* SceneDelegate.swift in Sources */,
+				C99F94D82B933FBD00BD5021 /* BaseTargetType.swift in Sources */,
 				C92D55D62B7E9CB6001BB7BE /* LibraryViewController.swift in Sources */,
 				C950616B2B8DADBE007F0B9E /* GlobalConstants.swift in Sources */,
 				C92D55C82B7E3AB2001BB7BE /* HomeViewModel.swift in Sources */,
