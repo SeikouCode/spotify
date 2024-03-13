@@ -6,13 +6,13 @@
 //
 
 import UIKit
+import SkeletonView
 
 class HomeViewController: BaseViewController {
     
     // MARK: - Properties
     
     var viewModel: HomeViewModel?
-    private var sections = [HomeSectionType]()
     
     // MARK: - UI Elements
     
@@ -24,8 +24,13 @@ class HomeViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
-        collectionView.register(PlaylistCollectionViewCell.self, forCellWithReuseIdentifier: "PlaylistCollectionViewCell")
+        collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "CustomCollectionViewCell")
         collectionView.register(RecommendedCollectionViewCell.self, forCellWithReuseIdentifier: "RecommendedCollectionViewCell")
+        collectionView.register(
+            HeaderView.self ,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: "HeaderView")
+        collectionView.isSkeletonable = true
         return collectionView
     }()
     
@@ -35,10 +40,6 @@ class HomeViewController: BaseViewController {
         super.viewDidLoad()
         setupViews()
         setupViewModel()
-        
-        sections.append(.newRelesedAlbums(datamodel: [.init(), .init(), .init()]))
-        sections.append(.featuredPlaylists(datamodel: [.init(), .init(), .init()]))
-        sections.append(.recommended(datamodel: [.init(), .init(), .init()]))
     }
     
     // MARK: - Private Methods
@@ -46,7 +47,7 @@ class HomeViewController: BaseViewController {
     private func setupViews() {
         view.backgroundColor = .black
         navigationItem.setBackBarItem()
-        title = "Home"
+        title = "Home".localized
         
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
@@ -55,6 +56,135 @@ class HomeViewController: BaseViewController {
         }
     }
     
+    private func setupViewModel() {
+        viewModel = HomeViewModel()
+//        collectionView.showAnimatedGradientSkeleton()
+        viewModel?.didLoad()
+        
+        viewModel?.loadAlbums(comletion: { [weak self] in
+                self?.collectionView.reloadData()
+        })
+        
+        viewModel?.loadPlaylists(comletion: { [weak self] in
+                self?.collectionView.reloadData()
+        })
+        
+        viewModel?.loadRecomendedMusics(comletion: { [weak self] in
+                self?.collectionView.reloadData()
+        })
+    }
+    
+    // MARK: - Actions
+        
+    override func didTapSettings() {
+        let controller = SettingsViewController()
+        controller.title = "Settings".localized
+        controller.navigationItem.setBackBarItem()
+        controller.navigationItem.largeTitleDisplayMode = .never
+        controller.hidesBottomBarWhenPushed = true
+        controller.navigationItem.backButtonTitle = " "
+        navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
+// MARK: - UITableViewDelegate, UITableViewDataSource
+
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, SkeletonCollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return viewModel?.numberOfSections ?? 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let type = viewModel?.getSectionViewModel(at: section)
+        switch type {
+        case .newRelesedAlbums(_, let dataModel):
+            return dataModel.count
+        case .featuredPlaylists(_, let dataModel):
+            return dataModel.count
+        case .recommended(_, let dataModel):
+            return dataModel.count
+        default:
+            return 1
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let type = viewModel?.getSectionViewModel(at: indexPath.section)
+        switch type {
+                
+        case .newRelesedAlbums(_, let dataModel):
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! CustomCollectionViewCell
+                cell.configure(data: dataModel[indexPath.row])
+            return cell
+                
+        case .featuredPlaylists(_, let dataModel):
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! CustomCollectionViewCell
+                cell.configure(data: dataModel[indexPath.row])
+            return cell
+                
+        case .recommended(_, let dataModel):
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendedCollectionViewCell", for: indexPath) as! RecommendedCollectionViewCell
+                cell.configure(data: dataModel[indexPath.row])
+            return cell
+                
+        default:
+            return UICollectionViewCell()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HeaderView", for: indexPath) as! HeaderView
+        let type = viewModel?.getSectionViewModel(at: indexPath.section)
+        
+        switch type {
+            case .newRelesedAlbums(let title, _):
+                header.configure(text: title)
+            case .featuredPlaylists(let title, _):
+                header.configure(text: title)
+            case .recommended(let title, _):
+                header.configure(text: title)
+            default:
+                break
+        }
+        return header
+    }
+    
+    func numSections(in collectionSkeletonView: UICollectionView) -> Int {
+        return viewModel?.numberOfSections ?? 1
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let type = viewModel?.getSectionViewModel(at: section)
+        
+        switch type {
+            case .newRelesedAlbums:
+                return 3
+            case .featuredPlaylists:
+                return 3
+            case .recommended:
+                return 4
+            default:
+                return 1
+        }
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+        let type = viewModel?.getSectionViewModel(at: indexPath.section)
+        
+        switch type {
+            case .newRelesedAlbums:
+                return "CustomCollectionViewCell"
+            case .featuredPlaylists:
+                return "CustomCollectionViewCell"
+            case .recommended:
+                return "RecommendedCollectionViewCell"
+            default:
+                return ""
+        }
+    }
+}
+
+extension HomeViewController {
     private func createCollectionLayout(section: Int) -> NSCollectionLayoutSection {
         switch section {
         case 0:
@@ -83,7 +213,15 @@ class HomeViewController: BaseViewController {
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .continuous
             section.contentInsets = .init(top: 8, leading: 16, bottom: 4, trailing: 16)
+            section.boundarySupplementaryItems = [
+                .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                        heightDimension: .estimated(60)),
+                      elementKind: UICollectionView.elementKindSectionHeader,
+                      alignment: .top
+                )
+            ]
             return section
+                
         case 1:
             // Item
             let itemSize = NSCollectionLayoutSize(
@@ -110,7 +248,15 @@ class HomeViewController: BaseViewController {
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .continuous
             section.contentInsets = .init(top: 4, leading: 16, bottom: 4, trailing: 16)
+            section.boundarySupplementaryItems = [
+                .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                        heightDimension: .estimated(60)),
+                      elementKind: UICollectionView.elementKindSectionHeader,
+                      alignment: .top
+                )
+            ]
             return section
+                
         case 2:
             // Item
             let itemSize = NSCollectionLayoutSize(
@@ -136,7 +282,15 @@ class HomeViewController: BaseViewController {
             
             let section = NSCollectionLayoutSection(group: verticalGroup)
             section.contentInsets = .init(top: 4, leading: 16, bottom: 16, trailing: 16)
+            section.boundarySupplementaryItems = [
+                .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                        heightDimension: .estimated(60)),
+                      elementKind: UICollectionView.elementKindSectionHeader,
+                      alignment: .top
+                )
+            ]
             return section
+                
         default:
             // Item
             let itemSize = NSCollectionLayoutSize(
@@ -162,64 +316,6 @@ class HomeViewController: BaseViewController {
             
             let section = NSCollectionLayoutSection(group: verticalGroup)
             return section
-        }
-    }
-    
-    private func setupViewModel() {
-        viewModel = HomeViewModel()
-//        viewModel?.loadRecommendedMusics(comletion: {
-//            self.recommendedTableView.reloadData()
-//        })
-    }
-    
-    // MARK: - Actions
-        
-    override func didTapSettings() {
-        let controller = SettingsViewController()
-        controller.title = "Settings"
-        controller.navigationItem.setBackBarItem()
-        controller.navigationItem.largeTitleDisplayMode = .never
-        controller.hidesBottomBarWhenPushed = true
-        controller.navigationItem.backButtonTitle = " "
-        navigationController?.pushViewController(controller, animated: true)
-    }
-}
-
-// MARK: - UITableViewDelegate, UITableViewDataSource
-
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return sections.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch sections[section] {
-        case .newRelesedAlbums(let dataModel):
-            return dataModel.count
-        case .featuredPlaylists(let dataModel):
-            return dataModel.count
-        case .recommended(let dataModel):
-            return dataModel.count
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch sections[indexPath.section] {
-        case .newRelesedAlbums(let dataModel):
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlaylistCollectionViewCell", for: indexPath) as! PlaylistCollectionViewCell
-//            cell.configure(with: dataModel)
-            cell.backgroundColor = .systemGreen
-            return cell
-        case .featuredPlaylists(let dataModel):
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlaylistCollectionViewCell", for: indexPath) as! PlaylistCollectionViewCell
-//            cell.configure(with: dataModel)
-            cell.backgroundColor = .systemPink
-            return cell
-        case .recommended(let dataModel):
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendedCollectionViewCell", for: indexPath) as! RecommendedCollectionViewCell
-//            cell.configure(with: dataModel)
-            cell.backgroundColor = .systemBlue
-            return cell
         }
     }
 }

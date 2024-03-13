@@ -39,10 +39,10 @@ class SettingsViewController: UIViewController {
     private func setupData() {
         sections.append(
             .init(
-                title: "Profile",
+                title: "Profile".localized,
                 rows: [
                     .init(
-                        title: "View Your Profile",
+                        title: "View_Your_Profile".localized,
                         handler: { [weak self] in
                             DispatchQueue.main.async {
                                 self?.showProfilePage()
@@ -54,10 +54,10 @@ class SettingsViewController: UIViewController {
         
         sections.append(
             .init(
-                title: "Account",
+                title: "Account".localized,
                 rows: [
                     .init(
-                        title: "Sign Out",
+                        title: "Sign_Out".localized,
                         handler: { [weak self] in
                             DispatchQueue.main.async {
                                 self?.didTapSignOut()
@@ -70,7 +70,7 @@ class SettingsViewController: UIViewController {
     
     private func showProfilePage() {
         let controller = ProfileViewController()
-        controller.title = "Profile"
+        controller.title = "Profile".localized
         navigationController?.pushViewController(controller, animated: true)
     }
     
