@@ -11,50 +11,59 @@ import Moya
 final class AlbumsManager {
     static let shared = AlbumsManager()
     
-    private let provider = MoyaProvider<AlbumsTarget>(
+    private let provider = MoyaProvider<HomeTarget>(
         plugins: [
             NetworkLoggerPlugin(configuration: NetworkLoggerPluginConfig.prettyLogging),
             LoggerPlugin()
         ]
     )
     
-    func getNewReleases(completion: @escaping () -> Void) {
+    func getNewReleases(completion: @escaping (Result<NewReleasesResponse, Error>) -> Void) {
         provider.request(.getNewReleases) { result in
             switch result {
             case .success(let response):
-                    guard let json = try? JSONDecoder().decode(NewReleasesResponse.self, from: response.data) else {
-                        return
-                    }
-                    print("SUCCSESS: \(json)")
-                    completion()
+                do {
+                    let json = try response.map(NewReleasesResponse.self)
+                    completion(.success(json))
+                } catch {
+                    completion(.failure(error))
+                }
             case .failure(let error):
-                    break
+                completion(.failure(error))
             }
         }
     }
     
-    func getRecommendations(genres: String, completion: @escaping () -> ()) {
+    func getRecommendations(genres: String, completion: @escaping (Result<RecommendedGenresResponse, Error>) -> Void) {
         provider.request(.getRecommendations(genres: genres)) { result in
             switch result {
-            case .success(let resonse):
-                break
+            case .success(let response):
+                do {
+                    let json = try response.map(RecommendedGenresResponse.self)
+                    completion(.success(json))
+                } catch {
+                    completion(.failure(error))
+                }
             case .failure(let error):
-                break
+                completion(.failure(error))
             }
         }
     }
     
-    func getRecommendedGenres(completion: @escaping ([String]) -> ()) {
+    func getRecommendedGenres(completion: @escaping (Result<RecommendedGenresResponse, Error>) -> Void) {
         provider.request(.getRecommendedGenres) { result in
             switch result {
-            case .success(let resonse):
-                guard let genres = try? JSONDecoder().decode(RecommendedGenresResponse.self, from: resonse.data) else {
-                    return
+            case .success(let response):
+                do {
+                    let json = try response.map(RecommendedGenresResponse.self)
+                    completion(.success(json))
+                } catch {
+                    completion(.failure(error))
                 }
-                completion(genres.genres)
             case .failure(let error):
-                break
+                completion(.failure(error))
             }
         }
     }
 }
+

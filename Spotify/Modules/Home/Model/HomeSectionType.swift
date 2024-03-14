@@ -8,7 +8,7 @@
 import Foundation
 
 enum HomeSectionType {
-    case newRelesedAlbums(title: String, datamodel: [AlbumsData])
+    case newReleasedAlbums(title: String, datamodel: [AlbumsData])
     case featuredPlaylists(title: String, datamodel: [AlbumsData])
     case recommended(title: String, datamodel: [RecommendedMusicData])
 }

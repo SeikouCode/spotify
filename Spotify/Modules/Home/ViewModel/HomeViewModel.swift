@@ -5,121 +5,117 @@
 //  Created by Aneli  on 15.02.2024.
 //
 
-import UIKit
- 
+import Foundation
+import Moya
+
 class HomeViewModel {
+    private let provider = MoyaProvider<HomeTarget>()
     private var sections = [HomeSectionType]()
-    
-    var numberOfSections: Int {
+
+    func fetchData(completion: @escaping (Result<Void, Error>) -> Void) {
+        let group = DispatchGroup()
+
+        group.enter()
+        fetchNewReleases { result in
+            defer { group.leave() }
+            switch result {
+            case .success(let data):
+                self.sections.append(.newReleasedAlbums(title: "New Releases", datamodel: data.albums.items.map { AlbumsData(title: $0.name ?? "", image: UIImage()) }))
+            case .failure(let error):
+                print("Error fetching new releases: \(error)")
+                completion(.failure(error))
+                return
+            }
+        }
+
+        group.enter()
+        fetchFeaturedPlaylists { result in
+            defer { group.leave() }
+            switch result {
+            case .success(let data):
+                self.sections.append(.featuredPlaylists(title: "Featured Playlists", datamodel: data.playlists.items.map { AlbumsData(title: $0.name, image: UIImage()) }))
+            case .failure(let error):
+                print("Error fetching featured playlists: \(error)")
+                completion(.failure(error))
+                return
+            }
+        }
+
+        group.enter()
+        fetchRecommendedGenres { result in
+            defer { group.leave() }
+            switch result {
+            case .success(let genres):
+                let recommendedData = genres.map { RecommendedMusicData(title: $0, subtitle: nil, image: UIImage()) }
+                self.sections.append(.recommended(title: "Recommended", datamodel: recommendedData))
+            case .failure(let error):
+                print("Error fetching recommended genres: \(error)")
+                completion(.failure(error))
+                return
+            }
+        }
+
+        group.notify(queue: .main) {
+            completion(.success(()))
+        }
+    }
+
+    private func fetchNewReleases(completion: @escaping (Result<NewReleasesResponse, Error>) -> Void) {
+        provider.request(.getNewReleases) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let decodedResponse = try response.map(NewReleasesResponse.self)
+                    completion(.success(decodedResponse))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    private func fetchFeaturedPlaylists(completion: @escaping (Result<FeaturedPlaylistsResponse, Error>) -> Void) {
+        provider.request(.getFeaturedPlaylists) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let decodedResponse = try response.map(FeaturedPlaylistsResponse.self)
+                    completion(.success(decodedResponse))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    private func fetchRecommendedGenres(completion: @escaping (Result<[String], Error>) -> Void) {
+        provider.request(.getRecommendedGenres) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let decodedResponse = try response.map(RecommendedGenresResponse.self)
+                    completion(.success(decodedResponse.genres))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    func numberOfSections() -> Int {
         return sections.count
     }
-    
-    func getSectionViewModel(at section: Int) -> HomeSectionType {
-        return sections[section]
-    }
-    
-    func didLoad() {
-        sections.append(.newRelesedAlbums(title: "New_released_albums".localized, datamodel: []))
-        sections.append(.featuredPlaylists(title: "Featured_playlists".localized, datamodel: []))
-        sections.append(.recommended(title: "Recommended".localized, datamodel: []))
-    }
-    
-    func loadRecomendedMusics(comletion: () -> ()) {
-        let musics: [RecommendedMusicData] = [
-            .init(
-                title: "Cozy Coffeehouse",
-                subtitle: nil,
-                image: UIImage(named: "music1") ?? UIImage()
-            ),
-            .init(
-                title: "Cozy",
-                subtitle: "Profile",
-                image: UIImage(named: "music2") ?? UIImage()
-            ),
-            .init(
-                title: "cozy clouds",
-                subtitle: nil,
-                image: UIImage(named: "music3") ?? UIImage()
-            )
-        ]
-        
-        AlbumsManager.shared.getRecommendedGenres { genres in
-            var seeds = Set<String>()
-            while seeds.count < 5 {
-                if let random = genres.randomElement() {
-                    seeds.insert(random)
-                }
-            }
-            let seedsGenres = seeds.joined(separator: ",")
-            AlbumsManager.shared.getRecommendations(genres: seedsGenres) {
-    
-            }
+
+    func getSectionViewModel(at index: Int) -> HomeSectionType? {
+        guard index >= 0 && index < sections.count else {
+            return nil
         }
-        
-        let index = sections.firstIndex(where: {
-            if case .recommended = $0 {
-                return true
-            } else {
-                return false
-            }
-        })
-        if let index {
-            sections[index] = .recommended(title: "Recommended".localized, datamodel: musics)
-        }
-        comletion()
-    }
-    
-    func loadAlbums(comletion: () -> ()) {
-        let albums: [AlbumsData] = [
-            .init(
-                title: "Kanye West: Vultures 1", image: UIImage(named: "album2") ?? UIImage()
-            ),
-            .init(
-                title: "Playboi Carti: I am Music", image: UIImage(named: "album2") ?? UIImage()
-            ),
-            .init(
-                title: "Travis Scott: Utopia", image: UIImage(named: "album2") ?? UIImage()
-            )
-        ]
-        
-        AlbumsManager.shared.getNewReleases {
-            
-        }
-        
-        if let index = sections.firstIndex(where: {
-            if case .newRelesedAlbums = $0 {
-                return true
-            } else {
-                return false
-            }
-        }) {
-            sections[index] = .newRelesedAlbums(title: "New_released_albums".localized, datamodel: albums)
-        }
-        comletion()
-    }
-    
-    func loadPlaylists(comletion: () -> ()) {
-        let playlists: [AlbumsData] = [
-            .init(
-                title: "Indie India", image: UIImage(named: "album1") ?? UIImage()
-            ),
-            .init(
-                title: "RADAR India", image: UIImage(named: "album1") ?? UIImage()
-            ),
-            .init(
-                title: "RADAR India", image: UIImage(named: "album1") ?? UIImage()
-            )
-        ]
-        
-        if let index = sections.firstIndex(where: {
-            if case .featuredPlaylists = $0 {
-                return true
-            } else {
-                return false
-            }
-        }) {
-            sections[index] = .featuredPlaylists(title: "Featured_playlists".localized, datamodel: playlists)
-        }
-        comletion()
+        return sections[index]
     }
 }

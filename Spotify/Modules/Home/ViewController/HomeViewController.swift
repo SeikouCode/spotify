@@ -7,6 +7,7 @@
 
 import UIKit
 import SkeletonView
+import Moya
 
 class HomeViewController: BaseViewController {
     
@@ -58,21 +59,18 @@ class HomeViewController: BaseViewController {
     
     private func setupViewModel() {
         viewModel = HomeViewModel()
-//        collectionView.showAnimatedGradientSkeleton()
-        viewModel?.didLoad()
-        
-        viewModel?.loadAlbums(comletion: { [weak self] in
-                self?.collectionView.reloadData()
-        })
-        
-        viewModel?.loadPlaylists(comletion: { [weak self] in
-                self?.collectionView.reloadData()
-        })
-        
-        viewModel?.loadRecomendedMusics(comletion: { [weak self] in
-                self?.collectionView.reloadData()
-        })
+        viewModel?.fetchData { [weak self] result in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
+            case .failure(let error):
+                print("Error fetching data: \(error)")
+            }
+        }
     }
+
     
     // MARK: - Actions
         
@@ -91,13 +89,13 @@ class HomeViewController: BaseViewController {
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, SkeletonCollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return viewModel?.numberOfSections ?? 1
+        return viewModel?.numberOfSections() ?? 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let type = viewModel?.getSectionViewModel(at: section)
         switch type {
-        case .newRelesedAlbums(_, let dataModel):
+        case .newReleasedAlbums(_, let dataModel):
             return dataModel.count
         case .featuredPlaylists(_, let dataModel):
             return dataModel.count
@@ -111,20 +109,19 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let type = viewModel?.getSectionViewModel(at: indexPath.section)
         switch type {
-                
-        case .newRelesedAlbums(_, let dataModel):
+        case .newReleasedAlbums(_, let dataModel):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! CustomCollectionViewCell
-                cell.configure(data: dataModel[indexPath.row])
+            cell.configure(data: dataModel[indexPath.row])
             return cell
                 
         case .featuredPlaylists(_, let dataModel):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! CustomCollectionViewCell
-                cell.configure(data: dataModel[indexPath.row])
+            cell.configure(data: dataModel[indexPath.row])
             return cell
                 
         case .recommended(_, let dataModel):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendedCollectionViewCell", for: indexPath) as! RecommendedCollectionViewCell
-                cell.configure(data: dataModel[indexPath.row])
+            cell.configure(data: dataModel[indexPath.row])
             return cell
                 
         default:
@@ -137,34 +134,34 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let type = viewModel?.getSectionViewModel(at: indexPath.section)
         
         switch type {
-            case .newRelesedAlbums(let title, _):
-                header.configure(text: title)
-            case .featuredPlaylists(let title, _):
-                header.configure(text: title)
-            case .recommended(let title, _):
-                header.configure(text: title)
-            default:
-                break
+        case .newReleasedAlbums(let title, _):
+            header.configure(text: title)
+        case .featuredPlaylists(let title, _):
+            header.configure(text: title)
+        case .recommended(let title, _):
+            header.configure(text: title)
+        default:
+            break
         }
         return header
     }
     
     func numSections(in collectionSkeletonView: UICollectionView) -> Int {
-        return viewModel?.numberOfSections ?? 1
+        return viewModel?.numberOfSections() ?? 1
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let type = viewModel?.getSectionViewModel(at: section)
         
         switch type {
-            case .newRelesedAlbums:
-                return 3
-            case .featuredPlaylists:
-                return 3
-            case .recommended:
-                return 4
-            default:
-                return 1
+        case .newReleasedAlbums:
+            return 3
+        case .featuredPlaylists:
+            return 3
+        case .recommended:
+            return 4
+        default:
+            return 1
         }
     }
     
@@ -172,14 +169,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let type = viewModel?.getSectionViewModel(at: indexPath.section)
         
         switch type {
-            case .newRelesedAlbums:
-                return "CustomCollectionViewCell"
-            case .featuredPlaylists:
-                return "CustomCollectionViewCell"
-            case .recommended:
-                return "RecommendedCollectionViewCell"
-            default:
-                return ""
+        case .newReleasedAlbums:
+            return "CustomCollectionViewCell"
+        case .featuredPlaylists:
+            return "CustomCollectionViewCell"
+        case .recommended:
+            return "RecommendedCollectionViewCell"
+        default:
+            return ""
         }
     }
 }

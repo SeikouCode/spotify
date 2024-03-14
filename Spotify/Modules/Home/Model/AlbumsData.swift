@@ -10,4 +10,5 @@ import UIKit
 struct AlbumsData {
     let title: String
     let image: UIImage
+    let id: String
 }

@@ -12,4 +12,3 @@ struct RecommendedMusicData {
     let subtitle: String?
     let image: UIImage
 }
-
