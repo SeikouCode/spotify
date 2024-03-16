@@ -10,5 +10,5 @@ import UIKit
 struct RecommendedMusicData {
     let title: String
     let subtitle: String?
-    let image: UIImage
+    let image: String?
 }

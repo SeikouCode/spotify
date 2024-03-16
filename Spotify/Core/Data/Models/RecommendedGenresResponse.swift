@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - RecommendedGenreResponse
+// MARK: - RecommendedGenresResponse
 struct RecommendedGenresResponse: Decodable {
     let tracks: [Track]
     let seeds: [Seed]
@@ -58,13 +58,13 @@ struct Track: Decodable {
 
 // MARK: - Album
 struct Album: Decodable {
-    let albumType: AlbumType
+    let albumType: String
     let artists: [Artist]
     let availableMarkets: [String]
     let externalUrls: ExternalURLS
     let href: String
     let id: String
-    let images: [Image]
+    let images: [AlbumImage]
     let name, releaseDate: String
     let releaseDatePrecision: ReleaseDatePrecision
     let totalTracks: Int
@@ -84,11 +84,6 @@ struct Album: Decodable {
     }
 }
 
-enum AlbumType: String, Codable {
-    case album = "ALBUM"
-    case single = "SINGLE"
-}
-
 // MARK: - Artist
 struct Artist: Decodable {
     let externalUrls: ExternalURLS
@@ -103,7 +98,7 @@ struct Artist: Decodable {
     }
 }
 
-// MARK: - ExternalUrls
+// MARK: - ExternalURLS
 struct ExternalURLS: Decodable {
     let spotify: String
 }
@@ -113,7 +108,7 @@ enum ArtistType: String, Codable {
 }
 
 // MARK: - Image
-struct Images: Decodable {
+struct AlbumImage: Decodable {
     let height: Int
     let url: String
     let width: Int
@@ -136,3 +131,4 @@ struct ExternalIDS: Codable {
 enum TrackType: String, Codable {
     case track = "track"
 }
+

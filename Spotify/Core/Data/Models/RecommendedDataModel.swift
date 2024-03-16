@@ -9,5 +9,6 @@ import Foundation
 
 struct RecommendedDataModel: Decodable {
     let genres: [String]
-    
 }
+
+

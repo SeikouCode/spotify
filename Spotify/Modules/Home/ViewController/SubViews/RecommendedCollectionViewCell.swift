@@ -7,9 +7,10 @@
 
 import UIKit
 import SkeletonView
+import Kingfisher
 
 class RecommendedCollectionViewCell: UICollectionViewCell {
-    private enum Consraints {
+    private enum Constraints {
         static let musicImageSize: CGFloat = 48
         static let musicImageCornerRadius: CGFloat = 24
         static let textsStackViewSpacing: CGFloat = 2
@@ -18,7 +19,7 @@ class RecommendedCollectionViewCell: UICollectionViewCell {
     
     private let musicImage: UIImageView = {
         let image = UIImageView()
-        image.layer.cornerRadius = Consraints.musicImageCornerRadius
+        image.layer.cornerRadius = Constraints.musicImageCornerRadius
         image.contentMode = .scaleAspectFill
         image.isSkeletonable = true
         image.skeletonCornerRadius = 24
@@ -27,7 +28,7 @@ class RecommendedCollectionViewCell: UICollectionViewCell {
 
     private let textsStackView: UIStackView = {
         let stack = UIStackView()
-        stack.spacing = Consraints.textsStackViewSpacing
+        stack.spacing = Constraints.textsStackViewSpacing
         stack.distribution = .fillEqually
         stack.alignment = .fill
         stack.axis = .vertical
@@ -63,11 +64,21 @@ class RecommendedCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(data: RecommendedMusicData?) {
-        guard let data = data else { return }
-        self.musicImage.image = data.image
-        self.titleLabel.text = data.title
-        self.subtitleLabel.text = data.subtitle
+        guard let data = data else {
+            musicImage.image = nil
+            titleLabel.text = nil
+            subtitleLabel.text = nil
+            return
+        }
+        if let imageUrl = URL(string: data.image ?? "") {
+            musicImage.kf.setImage(with: imageUrl)
+        } else {
+            musicImage.image = nil
+        }
+        titleLabel.text = data.title
+        subtitleLabel.text = data.subtitle
     }
+
     
     private func setupViews() {
         isSkeletonable = true
@@ -85,7 +96,7 @@ class RecommendedCollectionViewCell: UICollectionViewCell {
         musicImage.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(12)
             make.top.bottom.equalToSuperview().inset(8)
-            make.size.equalTo(Consraints.musicImageSize)
+            make.size.equalTo(Constraints.musicImageSize)
         }
         
         textsStackView.snp.makeConstraints { make in
@@ -98,7 +109,7 @@ class RecommendedCollectionViewCell: UICollectionViewCell {
         rightView.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(12)
             make.centerY.equalToSuperview()
-            make.size.equalTo(Consraints.rightViewSize)
+            make.size.equalTo(Constraints.rightViewSize)
         }
     }
 }

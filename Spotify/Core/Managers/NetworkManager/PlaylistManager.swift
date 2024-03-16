@@ -18,7 +18,7 @@ final class PlaylistManager {
         ]
     )
     
-    func getFeaturedPlaylists(completion: @escaping (Result<FeaturedPlaylistsResponse, Error>) -> Void) {
+    func getFeaturedPlaylists(completion: @escaping (APIResult<FeaturedPlaylistsResponse>) -> Void) {
         provider.request(.getFeaturedPlaylists) { result in
             switch result {
                 case .success(let response):
@@ -26,10 +26,10 @@ final class PlaylistManager {
                         let json = try response.map(FeaturedPlaylistsResponse.self)
                         completion(.success(json))
                     } catch {
-                        completion(.failure(error))
+                        completion(.failure(.failedWith(error: error.localizedDescription)))
                     }
                 case .failure(let error):
-                    completion(.failure(error))
+                    completion(.failure(.failedWith(error: error.localizedDescription)))
             }
         }
     }

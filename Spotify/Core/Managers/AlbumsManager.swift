@@ -23,18 +23,24 @@ final class AlbumsManager {
         ]
     )
     
-    func getNewReleases(completion: @escaping (APIResult<[Playlist]>) -> ()) {
+    func getNewReleases(completion: @escaping (Result<[Playlist], Error>) -> ()) {
         provider.request(.getNewReleases) { result in
             switch result {
             case .success(let response):
-                guard let dataModel = try? JSONDecoder().decode(NewReleasesResponse.self, from: response.data) else { return }
-                completion(.success(dataModel.albums.items))
+                do {
+                    let dataModel = try JSONDecoder().decode(NewReleasesResponse.self, from: response.data)
+                    completion(.success(dataModel.albums.items))
+                } catch {
+                    print("Error decoding response data:", error)
+                    print("Response data:", String(data: response.data, encoding: .utf8) ?? "Unable to decode data")
+                    completion(.failure(error))
+                }
             case .failure(let error):
-                break
+                completion(.failure(error))
             }
         }
     }
-    
+
     func getRecommendations(genres: String, completion: @escaping (Result<[Track], Error>) -> Void) {
         provider.request(.getRecommendations(genres: genres)) { result in
             switch result {
@@ -43,6 +49,8 @@ final class AlbumsManager {
                     let dataModel = try JSONDecoder().decode(RecommendedGenresResponse.self, from: response.data)
                     completion(.success(dataModel.tracks))
                 } catch {
+                    print("Error decoding response data:", error)
+                    print("Response data:", String(data: response.data, encoding: .utf8) ?? "Unable to decode data")
                     completion(.failure(error))
                 }
             case .failure(let error):
@@ -50,19 +58,22 @@ final class AlbumsManager {
             }
         }
     }
-    
-    func getRecommendedGenres(completion: @escaping ([String]) -> ()) {
+
+    func getRecommendedGenres(completion: @escaping (Result<[String], Error>) -> ()) {
         provider.request(.getRecommendedGenres) { result in
             switch result {
             case .success(let response):
-                guard let genres = try? JSONDecoder().decode(RecommendedDataModel.self, from: response.data) else {
-                    return
+                do {
+                    let genres = try JSONDecoder().decode(RecommendedDataModel.self, from: response.data)
+                    completion(.success(genres.genres))
+                } catch {
+                    print("Error decoding response data:", error)
+                    print("Response data:", String(data: response.data, encoding: .utf8) ?? "Unable to decode data")
+                    completion(.failure(error))
                 }
-                completion(genres.genres)
             case .failure(let error):
-                break
+                completion(.failure(error))
             }
         }
     }
 }
-

@@ -49,8 +49,11 @@ class CustomCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(data: AlbumsData) {
-        let imageUrl = URL(string: data.image ?? "")
-        albumImageView.kf.setImage(with: imageUrl)
+        if let imageUrl = URL(string: data.image ?? "") {
+            albumImageView.kf.setImage(with: imageUrl)
+        } else {
+            albumImageView.image = nil
+        }
         titleLabel.text = data.title
     }
     
@@ -75,3 +78,4 @@ class CustomCollectionViewCell: UICollectionViewCell {
         }
     }
 }
+

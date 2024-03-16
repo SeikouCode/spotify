@@ -66,9 +66,9 @@ class HomeViewController: BaseViewController {
         let group = DispatchGroup()
         
         group.enter()
-        viewModel?.loadRecomendedMusics(completion: { [weak self] in
+        viewModel?.loadRecommended(completion: {_ in
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                self?.collectionView.reloadData()
+                self.collectionView.reloadData()
                 group.leave()
             }
         })
@@ -144,19 +144,23 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         case .newReleasedAlbums(_, let dataModel):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! CustomCollectionViewCell
             cell.configure(data: dataModel[indexPath.row])
+            print("Configuring CustomCollectionViewCell at indexPath: \(indexPath)")
             return cell
                 
         case .featuredPlaylists(_, let dataModel):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! CustomCollectionViewCell
             cell.configure(data: dataModel[indexPath.row])
+            print("Configuring CustomCollectionViewCell at indexPath: \(indexPath)")
             return cell
                 
         case .recommended(_, let dataModel):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendedCollectionViewCell", for: indexPath) as! RecommendedCollectionViewCell
             cell.configure(data: dataModel[indexPath.row])
+            print("Configuring RecommendedCollectionViewCell at indexPath: \(indexPath)")
             return cell
                 
         default:
+            print("Unknown cell type at indexPath: \(indexPath)")
             return UICollectionViewCell()
         }
     }
@@ -348,3 +352,4 @@ extension HomeViewController {
         }
     }
 }
+
