@@ -10,11 +10,13 @@ import SkeletonView
 import Kingfisher
 
 class CustomCollectionViewCell: UICollectionViewCell {
+    
     // MARK: - UI Components
     
     private let albumImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         imageView.isSkeletonable = true
         imageView.skeletonCornerRadius = 8
         return imageView
@@ -66,16 +68,13 @@ class CustomCollectionViewCell: UICollectionViewCell {
         }
         
         albumImageView.snp.makeConstraints { make in
-            make.size.equalTo(150)
             make.top.left.right.equalToSuperview().inset(8)
+            make.height.equalTo(150)
         }
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(albumImageView.snp.bottom).offset(8)
             make.left.bottom.right.equalToSuperview().inset(8)
-            make.height.greaterThanOrEqualTo(35)
-            make.width.greaterThanOrEqualTo(150)
         }
     }
 }
-

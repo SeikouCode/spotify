@@ -66,7 +66,7 @@ class HomeViewController: BaseViewController {
         let group = DispatchGroup()
         
         group.enter()
-        viewModel?.loadRecommended(completion: {_ in
+        viewModel?.loadRecommended(completion: { _ in
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                 self.collectionView.reloadData()
                 group.leave()
@@ -352,4 +352,3 @@ extension HomeViewController {
         }
     }
 }
-
