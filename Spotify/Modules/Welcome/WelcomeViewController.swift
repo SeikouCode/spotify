@@ -33,7 +33,6 @@ class WelcomeViewController: UIViewController {
     private func setupViews() {
         title = "Spotify"
         view.backgroundColor = .systemGreen
-        
         view.addSubview(signInButton)
         signInButton.snp.makeConstraints { make in
             make.height.equalTo(50)

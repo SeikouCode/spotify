@@ -30,7 +30,6 @@
 		C958792A2B897A7E00CCD695 /* AuthTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95879292B897A7E00CCD695 /* AuthTarget.swift */; };
 		C966AE242B7DF939001F2333 /* RecommendedMusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C966AE232B7DF939001F2333 /* RecommendedMusicData.swift */; };
 		C97EE4292BA17D1800D52B69 /* FeaturedPlaylistsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97EE4282BA17D1800D52B69 /* FeaturedPlaylistsResponse.swift */; };
-		C97EE42D2BA1896600D52B69 /* PlaylistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97EE42C2BA1896600D52B69 /* PlaylistManager.swift */; };
 		C988CA2F2B80995F00E5F085 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988CA2E2B80995F00E5F085 /* AuthViewController.swift */; };
 		C988CA322B80998200E5F085 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988CA312B80998200E5F085 /* WelcomeViewController.swift */; };
 		C988CA342B8099B700E5F085 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C988CA332B8099B700E5F085 /* AuthManager.swift */; };
@@ -82,7 +81,6 @@
 		C95879292B897A7E00CCD695 /* AuthTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTarget.swift; sourceTree = "<group>"; };
 		C966AE232B7DF939001F2333 /* RecommendedMusicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedMusicData.swift; sourceTree = "<group>"; };
 		C97EE4282BA17D1800D52B69 /* FeaturedPlaylistsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedPlaylistsResponse.swift; sourceTree = "<group>"; };
-		C97EE42C2BA1896600D52B69 /* PlaylistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistManager.swift; sourceTree = "<group>"; };
 		C988CA2E2B80995F00E5F085 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		C988CA312B80998200E5F085 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		C988CA332B8099B700E5F085 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
@@ -175,7 +173,6 @@
 			isa = PBXGroup;
 			children = (
 				C99F94E92B95F61200BD5021 /* ProfileManager.swift */,
-				C97EE42C2BA1896600D52B69 /* PlaylistManager.swift */,
 			);
 			path = NetworkManager;
 			sourceTree = "<group>";
@@ -618,7 +615,6 @@
 				C92D55D02B7E9B3B001BB7BE /* TabBarViewController.swift in Sources */,
 				C9F01D5C2BA13E4700F9A6FE /* HomeTarget.swift in Sources */,
 				C95879252B896D2100CCD695 /* AuthViewModel.swift in Sources */,
-				C97EE42D2BA1896600D52B69 /* PlaylistManager.swift in Sources */,
 				C950616D2B8DC2F9007F0B9E /* NetworkLoggerPluginConfig.swift in Sources */,
 				C92ADF8B2BA39F0900113A2A /* RecommendedDataModel.swift in Sources */,
 				C99F94E12B9351A100BD5021 /* UINavigationItemExtension.swift in Sources */,

@@ -22,16 +22,11 @@ class CustomCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "PlayfairDisplay-Regular", size: 15)
-        label.textAlignment = .left
-        label.textColor = .white
-        label.numberOfLines = 2
-        label.isSkeletonable = true
-        label.skeletonCornerRadius = 2
-        return label
-    }()
+    private var titleLabel = LabelFactory.createLabel(
+        font: UIFont(name: "PlayfairDisplay-Regular", size: 15),
+        numberOfLines: 2,
+        isSkeletonable: true
+        )
     
     // MARK: - Init
     
@@ -48,14 +43,16 @@ class CustomCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         albumImageView.image = nil
         titleLabel.text = nil
+        if contentView.sk.isSkeletonActive {
+            isSkeletonable = false
+            contentView.isSkeletonable = false
+            contentView.hideSkeleton()
+        }
     }
     
     func configure(data: AlbumsData) {
-        if let imageUrl = URL(string: data.image ?? "") {
-            albumImageView.kf.setImage(with: imageUrl)
-        } else {
-            albumImageView.image = nil
-        }
+        let imageUrl = URL(string: data.image ?? "")
+        albumImageView.kf.setImage(with: imageUrl)
         titleLabel.text = data.title
     }
     
@@ -68,13 +65,15 @@ class CustomCollectionViewCell: UICollectionViewCell {
         }
         
         albumImageView.snp.makeConstraints { make in
+            make.size.equalTo(150)
             make.top.left.right.equalToSuperview().inset(8)
-            make.height.equalTo(150)
         }
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(albumImageView.snp.bottom).offset(8)
             make.left.bottom.right.equalToSuperview().inset(8)
+            make.height.greaterThanOrEqualTo(35)
+            make.width.greaterThanOrEqualTo(150)
         }
     }
 }

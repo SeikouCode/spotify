@@ -12,11 +12,10 @@ struct NewReleasesResponse: Decodable {
 }
 
 struct AlbumsDataModel: Decodable {
-    let items: [Playlist]
+    let items: [Album]
 }
 
-
-struct Playlist: Decodable {
+struct Album: Decodable {
     let id: String?
     let totalTracks: Int?
     let albumType: String?
@@ -59,3 +58,4 @@ struct Artists: Decodable {
 struct ImageDataModel: Decodable {
     let url: String
 }
+

@@ -8,11 +8,6 @@
 import Foundation
 import Moya
 
-enum Result<T, E: Error> {
-    case success(T)
-    case failure(E)
-}
-
 final class AlbumsManager {
     static let shared = AlbumsManager()
     
@@ -23,7 +18,7 @@ final class AlbumsManager {
         ]
     )
     
-    func getNewReleases(completion: @escaping (Result<[Playlist], Error>) -> ()) {
+    func getNewReleases(completion: @escaping (APIResult<[Album]>) -> Void) {
         provider.request(.getNewReleases) { result in
             switch result {
             case .success(let response):
@@ -31,17 +26,33 @@ final class AlbumsManager {
                     let dataModel = try JSONDecoder().decode(NewReleasesResponse.self, from: response.data)
                     completion(.success(dataModel.albums.items))
                 } catch {
-                    print("Error decoding response data:", error)
-                    print("Response data:", String(data: response.data, encoding: .utf8) ?? "Unable to decode data")
-                    completion(.failure(error))
+                    print("Error decoding new releases response:", error)
+                    completion(.failure(.incorrectJSON))
                 }
             case .failure(let error):
-                completion(.failure(error))
+                completion(.failure(.networkFail))
             }
         }
     }
-
-    func getRecommendations(genres: String, completion: @escaping (Result<[Track], Error>) -> Void) {
+    
+    func getFeaturedPlaylists(completion: @escaping (APIResult<[FeaturedPlaylists]>) -> Void) {
+        provider.request(.getFeaturedPlaylists) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let dataModel = try JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: response.data)
+                    completion(.success(dataModel.playlists.items))
+                } catch {
+                    print("Error decoding featured playlists response:", error)
+                    completion(.failure(.incorrectJSON))
+                }
+            case .failure(let error):
+                completion(.failure(.networkFail))
+            }
+        }
+    }
+    
+    func getRecommendations(genres: String, completion: @escaping (APIResult<[Track]>) -> Void) {
         provider.request(.getRecommendations(genres: genres)) { result in
             switch result {
             case .success(let response):
@@ -49,17 +60,17 @@ final class AlbumsManager {
                     let dataModel = try JSONDecoder().decode(RecommendedGenresResponse.self, from: response.data)
                     completion(.success(dataModel.tracks))
                 } catch {
-                    print("Error decoding response data:", error)
-                    print("Response data:", String(data: response.data, encoding: .utf8) ?? "Unable to decode data")
-                    completion(.failure(error))
+                    print("Error decoding recommendations response:", error)
+                    completion(.failure(.incorrectJSON))
                 }
             case .failure(let error):
-                completion(.failure(error))
+                print("Failed to get recommendations:", error)
+                completion(.failure(.networkFail))
             }
         }
     }
-
-    func getRecommendedGenres(completion: @escaping (Result<[String], Error>) -> ()) {
+    
+    func getRecommendedGenres(completion: @escaping (Result<[String], Error>) -> Void) {
         provider.request(.getRecommendedGenres) { result in
             switch result {
             case .success(let response):
@@ -67,11 +78,11 @@ final class AlbumsManager {
                     let genres = try JSONDecoder().decode(RecommendedDataModel.self, from: response.data)
                     completion(.success(genres.genres))
                 } catch {
-                    print("Error decoding response data:", error)
-                    print("Response data:", String(data: response.data, encoding: .utf8) ?? "Unable to decode data")
+                    print("Error decoding recommended genres response:", error)
                     completion(.failure(error))
                 }
             case .failure(let error):
+                print("Failed to get recommended genres:", error)
                 completion(.failure(error))
             }
         }

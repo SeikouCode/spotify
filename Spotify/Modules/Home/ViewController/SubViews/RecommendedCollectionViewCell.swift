@@ -7,39 +7,50 @@
 
 import UIKit
 import SkeletonView
-import Kingfisher
 
 class RecommendedCollectionViewCell: UICollectionViewCell {
+    private enum Consraints {
+        static let musicImageSize: CGFloat = 48
+        static let musicImageCornerRadius: CGFloat = 24
+        static let textsStackViewSpacing: CGFloat = 2
+        static let rightViewSize: CGFloat = 24
+    }
     
-    // MARK: - UI Components
-    
-    private let musicImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 8
-        imageView.isSkeletonable = true
-        return imageView
+    private let musicImage: UIImageView = {
+        let image = UIImageView()
+        image.layer.cornerRadius = Consraints.musicImageCornerRadius
+        image.contentMode = .scaleAspectFill
+        image.isSkeletonable = true
+        image.skeletonCornerRadius = 24
+        return image
+    }()
+
+    private let textsStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.spacing = Consraints.textsStackViewSpacing
+        stack.distribution = .fillEqually
+        stack.alignment = .fill
+        stack.axis = .vertical
+        stack.isSkeletonable = true
+        return stack
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "Lato-Regular", size: 16)
-        label.textColor = .white
-        label.numberOfLines = 2
-        label.isSkeletonable = true
-        return label
-    }()
+    private var titleLabel = LabelFactory.createLabel(
+        font: UIFont(name: "Lato-Regular", size: 16),
+        isSkeletonable: true
+    )
     
-    private let subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "Lato-Regular", size: 13)
-        label.textColor = .white
-        label.isSkeletonable = true
-        return label
-    }()
+    private var subtitleLabel = LabelFactory.createLabel(
+        font: UIFont(name: "Lato-Regular", size: 13),
+        isSkeletonable: true
+    )
     
-    // MARK: - Init
+    private let rightView: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleToFill
+        image.image = UIImage(named: "icon_right")
+        return image
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,45 +61,54 @@ class RecommendedCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        musicImageView.image = nil
-        titleLabel.text = nil
-        subtitleLabel.text = nil
-    }
-    
-    func configure(data: RecommendedMusicData) {
-        if let imageUrl = URL(string: data.image ?? "") {
-            musicImageView.kf.setImage(with: imageUrl)
+    func configure(data: RecommendedMusicData?) {
+        guard let data = data else { return }
+        
+        if let imageUrlString = data.image, let imageUrl = URL(string: imageUrlString) {
+            musicImage.kf.setImage(with: imageUrl)
         } else {
-            musicImageView.image = nil
+            musicImage.image = nil
         }
+        
         titleLabel.text = data.title
-        subtitleLabel.text = data.subtitle
+        if let subtitle = data.subtitle {
+            subtitleLabel.text = subtitle
+        } else {
+            subtitleLabel.isHidden = true
+        }
     }
     
     private func setupViews() {
         isSkeletonable = true
         contentView.isSkeletonable = true
         
-        [musicImageView, titleLabel, subtitleLabel].forEach {
+        contentView.backgroundColor = .black
+        
+        [titleLabel, subtitleLabel].forEach {
+            textsStackView.addArrangedSubview($0)
+        }
+        
+        [musicImage, textsStackView, rightView].forEach {
             contentView.addSubview($0)
         }
-        
-        musicImageView.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview().inset(8)
-            make.height.equalTo(150)
+
+        musicImage.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(12)
+            make.top.bottom.equalToSuperview().inset(8)
+            make.size.equalTo(Consraints.musicImageSize)
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(musicImageView.snp.bottom).offset(8)
-            make.left.right.equalToSuperview().inset(8)
+        textsStackView.snp.makeConstraints { make in
+            make.left.equalTo(musicImage.snp.right).offset(12)
+            make.top.bottom.equalTo(musicImage)
+            make.height.greaterThanOrEqualTo(35)
+            make.width.greaterThanOrEqualTo(150)
         }
         
-        subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(4)
-            make.left.right.bottom.equalToSuperview().inset(8)
+        rightView.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(12)
+            make.centerY.equalToSuperview()
+            make.size.equalTo(Consraints.rightViewSize)
         }
     }
 }
-

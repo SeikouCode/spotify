@@ -59,39 +59,12 @@ class HomeViewController: BaseViewController {
     
     private func setupViewModel() {
         viewModel = HomeViewModel()
-        viewModel?.didLoad {
-            self.collectionView.reloadData()
-        }
         
-        let group = DispatchGroup()
-        
-        group.enter()
-        viewModel?.loadRecommended(completion: { _ in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                self.collectionView.reloadData()
-                group.leave()
-            }
+        collectionView.showAnimatedGradientSkeleton()
+        viewModel?.didLoad(completion: { [weak self] in
+            self?.collectionView.stopSkeletonAnimation()
+            self?.collectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
         })
-        
-        group.enter()
-        viewModel?.loadAlbums {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                self.collectionView.reloadData()
-                group.leave()
-            }
-        }
-        
-        group.enter()
-        viewModel?.loadPlaylists {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                self.collectionView.reloadData()
-                group.leave()
-            }
-        }
-        
-        group.notify(queue: .main) {
-            self.collectionView.hideSkeleton()
-        }
     }
     
     public override func setupNavigationBar() {
@@ -139,28 +112,27 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let type = viewModel?.getSectionViewModel(at: indexPath.section)
+        guard let type = viewModel?.getSectionViewModel(at: indexPath.section) else {
+            return UICollectionViewCell()
+        }
+        
         switch type {
         case .newReleasedAlbums(_, let dataModel):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! CustomCollectionViewCell
             cell.configure(data: dataModel[indexPath.row])
-            print("Configuring CustomCollectionViewCell at indexPath: \(indexPath)")
             return cell
                 
         case .featuredPlaylists(_, let dataModel):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! CustomCollectionViewCell
             cell.configure(data: dataModel[indexPath.row])
-            print("Configuring CustomCollectionViewCell at indexPath: \(indexPath)")
             return cell
                 
         case .recommended(_, let dataModel):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendedCollectionViewCell", for: indexPath) as! RecommendedCollectionViewCell
             cell.configure(data: dataModel[indexPath.row])
-            print("Configuring RecommendedCollectionViewCell at indexPath: \(indexPath)")
             return cell
                 
         default:
-            print("Unknown cell type at indexPath: \(indexPath)")
             return UICollectionViewCell()
         }
     }
@@ -246,109 +218,109 @@ extension HomeViewController {
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .continuous
             section.contentInsets = .init(top: 8, leading: 16, bottom: 4, trailing: 16)
-            section.boundarySupplementaryItems = [
-                .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                        heightDimension: .estimated(60)),
-                      elementKind: UICollectionView.elementKindSectionHeader,
-                      alignment: .top
-                )
-            ]
-            return section
-                
-        case 1:
-            // Item
-            let itemSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(1.0)
-            )
-            
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
-            
-            // Group
-            
-            let horizontalGroup = NSCollectionLayoutGroup.horizontal(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .absolute(168),
-                    heightDimension: .absolute(220)
-                ),
-                subitem: item,
-                count: 1
-            )
-            
-            //Section
-            
-            let section = NSCollectionLayoutSection(group: horizontalGroup)
-            section.orthogonalScrollingBehavior = .continuous
-            section.contentInsets = .init(top: 4, leading: 16, bottom: 4, trailing: 16)
-            section.boundarySupplementaryItems = [
-                .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                        heightDimension: .estimated(60)),
-                      elementKind: UICollectionView.elementKindSectionHeader,
-                      alignment: .top
-                )
-            ]
-            return section
-                
-        case 2:
-            // Item
-            let itemSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(1.0)
-            )
-            
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
-            
-            // Group
-            
-            let verticalGroup = NSCollectionLayoutGroup.vertical(
-                layoutSize: NSCollectionLayoutSize(
+                section.boundarySupplementaryItems = [
+                    .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                            heightDimension: .estimated(60)),
+                          elementKind: UICollectionView.elementKindSectionHeader,
+                          alignment: .top
+                    )
+                ]
+                return section
+                    
+            case 1:
+                // Item
+                let itemSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .absolute(64)
-                ),
-                subitem: item,
-                count: 1
-            )
-            
-            //Section
-            
-            let section = NSCollectionLayoutSection(group: verticalGroup)
-            section.contentInsets = .init(top: 4, leading: 16, bottom: 16, trailing: 16)
-            section.boundarySupplementaryItems = [
-                .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                        heightDimension: .estimated(60)),
-                      elementKind: UICollectionView.elementKindSectionHeader,
-                      alignment: .top
+                    heightDimension: .fractionalHeight(1.0)
                 )
-            ]
-            return section
                 
-        default:
-            // Item
-            let itemSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(1.0)
-            )
-            
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
-            
-            // Group
-            
-            let verticalGroup = NSCollectionLayoutGroup.vertical(
-                layoutSize: NSCollectionLayoutSize(
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
+                
+                // Group
+                
+                let horizontalGroup = NSCollectionLayoutGroup.horizontal(
+                    layoutSize: NSCollectionLayoutSize(
+                        widthDimension: .absolute(168),
+                        heightDimension: .absolute(220)
+                    ),
+                    subitem: item,
+                    count: 1
+                )
+                
+                //Section
+                
+                let section = NSCollectionLayoutSection(group: horizontalGroup)
+                section.orthogonalScrollingBehavior = .continuous
+                section.contentInsets = .init(top: 4, leading: 16, bottom: 4, trailing: 16)
+                section.boundarySupplementaryItems = [
+                    .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                            heightDimension: .estimated(60)),
+                          elementKind: UICollectionView.elementKindSectionHeader,
+                          alignment: .top
+                    )
+                ]
+                return section
+                    
+            case 2:
+                // Item
+                let itemSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .absolute(64)
-                ),
-                subitem: item,
-                count: 1
-            )
-            
-            //Section
-            
-            let section = NSCollectionLayoutSection(group: verticalGroup)
-            return section
+                    heightDimension: .fractionalHeight(1.0)
+                )
+                
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
+                
+                // Group
+                
+                let verticalGroup = NSCollectionLayoutGroup.vertical(
+                    layoutSize: NSCollectionLayoutSize(
+                        widthDimension: .fractionalWidth(1.0),
+                        heightDimension: .absolute(64)
+                    ),
+                    subitem: item,
+                    count: 1
+                )
+                
+                //Section
+                
+                let section = NSCollectionLayoutSection(group: verticalGroup)
+                section.contentInsets = .init(top: 4, leading: 16, bottom: 16, trailing: 16)
+                section.boundarySupplementaryItems = [
+                    .init(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                            heightDimension: .estimated(60)),
+                          elementKind: UICollectionView.elementKindSectionHeader,
+                          alignment: .top
+                    )
+                ]
+                return section
+                    
+            default:
+                // Item
+                let itemSize = NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .fractionalHeight(1.0)
+                )
+                
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
+                
+                // Group
+                
+                let verticalGroup = NSCollectionLayoutGroup.vertical(
+                    layoutSize: NSCollectionLayoutSize(
+                        widthDimension: .fractionalWidth(1.0),
+                        heightDimension: .absolute(64)
+                    ),
+                    subitem: item,
+                    count: 1
+                )
+                
+                //Section
+                
+                let section = NSCollectionLayoutSection(group: verticalGroup)
+                return section
+            }
         }
     }
-}

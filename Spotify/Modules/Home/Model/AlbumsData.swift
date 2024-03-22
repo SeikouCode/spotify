@@ -8,6 +8,7 @@
 import UIKit
 
 struct AlbumsData {
+    let id: String?
     let title: String?
     let image: String?
 }
