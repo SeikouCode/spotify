@@ -13,12 +13,15 @@ class BaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
+        baseSetupNavigationBar()
+        addLanguageObserver()
     }
     
     // MARK: - Public Methods
     
-    func setupNavigationBar() {
+    func setupTitles() { }
+    
+    func baseSetupNavigationBar() {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.configureWithOpaqueBackground()
         navigationBarAppearance.titleTextAttributes = [
@@ -31,6 +34,20 @@ class BaseViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = navigationBarAppearance
         navigationController?.navigationBar.compactAppearance = navigationBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+    }
+    
+    private func addLanguageObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(reloadTitles),
+            name: NSNotification.Name("language"),
+            object: nil
+        )
+    }
+    
+    @objc
+    private func reloadTitles() {
+        setupTitles()
     }
 }
 

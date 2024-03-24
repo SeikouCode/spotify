@@ -43,6 +43,10 @@ class HomeViewController: BaseViewController {
         setupNavigationBar()
     }
     
+    override func setupTitles() {
+        title = "Home".localized
+    }
+    
     // MARK: - Private Methods
     
     private func setupViews() {
@@ -67,8 +71,7 @@ class HomeViewController: BaseViewController {
         })
     }
     
-    public override func setupNavigationBar() {
-        super.setupNavigationBar()
+    private func setupNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "gear"),
             style: .done,
@@ -92,7 +95,7 @@ class HomeViewController: BaseViewController {
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, SkeletonCollectionViewDataSource {
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return viewModel?.numberOfSections ?? 1
     }
@@ -154,6 +157,27 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return header
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let type = viewModel?.getSectionViewModel(at: indexPath.row)
+        switch type {
+            case .newReleasedAlbums(_, let dataModel):
+                let album = dataModel[indexPath.row]
+                let viewController = AlbumDetailsViewController()
+                viewController.albumId = album.id
+                self.navigationController?.pushViewController(viewController, animated: true)
+            case .featuredPlaylists(_, let dataModel):
+                break
+            case .recommended(_, let dataModel):
+                break
+        default:
+                break
+        }
+    }
+}
+
+extension HomeViewController: SkeletonCollectionViewDataSource {
+    
     func numSections(in collectionSkeletonView: UICollectionView) -> Int {
         return viewModel?.numberOfSections ?? 1
     }
@@ -193,7 +217,6 @@ extension HomeViewController {
     private func createCollectionLayout(section: Int) -> NSCollectionLayoutSection {
         switch section {
         case 0:
-            // Item
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
                 heightDimension: .fractionalHeight(1.0)
@@ -201,8 +224,6 @@ extension HomeViewController {
             
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
-            
-            // Group
             
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
@@ -212,8 +233,6 @@ extension HomeViewController {
                 subitem: item,
                 count: 1
             )
-            
-            //Section
             
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .continuous
@@ -228,7 +247,6 @@ extension HomeViewController {
                 return section
                     
             case 1:
-                // Item
                 let itemSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
                     heightDimension: .fractionalHeight(1.0)
@@ -236,8 +254,6 @@ extension HomeViewController {
                 
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
-                
-                // Group
                 
                 let horizontalGroup = NSCollectionLayoutGroup.horizontal(
                     layoutSize: NSCollectionLayoutSize(
@@ -247,8 +263,6 @@ extension HomeViewController {
                     subitem: item,
                     count: 1
                 )
-                
-                //Section
                 
                 let section = NSCollectionLayoutSection(group: horizontalGroup)
                 section.orthogonalScrollingBehavior = .continuous
@@ -263,7 +277,6 @@ extension HomeViewController {
                 return section
                     
             case 2:
-                // Item
                 let itemSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
                     heightDimension: .fractionalHeight(1.0)
@@ -271,8 +284,6 @@ extension HomeViewController {
                 
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
-                
-                // Group
                 
                 let verticalGroup = NSCollectionLayoutGroup.vertical(
                     layoutSize: NSCollectionLayoutSize(
@@ -282,8 +293,6 @@ extension HomeViewController {
                     subitem: item,
                     count: 1
                 )
-                
-                //Section
                 
                 let section = NSCollectionLayoutSection(group: verticalGroup)
                 section.contentInsets = .init(top: 4, leading: 16, bottom: 16, trailing: 16)
@@ -297,7 +306,6 @@ extension HomeViewController {
                 return section
                     
             default:
-                // Item
                 let itemSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
                     heightDimension: .fractionalHeight(1.0)
@@ -305,8 +313,6 @@ extension HomeViewController {
                 
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
-                
-                // Group
                 
                 let verticalGroup = NSCollectionLayoutGroup.vertical(
                     layoutSize: NSCollectionLayoutSize(
@@ -316,8 +322,6 @@ extension HomeViewController {
                     subitem: item,
                     count: 1
                 )
-                
-                //Section
                 
                 let section = NSCollectionLayoutSection(group: verticalGroup)
                 return section

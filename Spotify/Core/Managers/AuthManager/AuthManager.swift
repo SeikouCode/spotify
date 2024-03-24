@@ -10,7 +10,9 @@ import Moya
 import KeychainSwift
 
 final class AuthManager {
+    
     static let shared = AuthManager()
+    private var authRepository: AuthRepositoryProtocol = AuthRepository()
     
 // MARK: - Properties
     
@@ -54,26 +56,26 @@ final class AuthManager {
     
     private var accessToken: String? {
         get {
-            return keychain.get("accessToken")
+            return authRepository.getAccessToken()
         }
         set {
             if let newValue = newValue {
-                keychain.set(newValue, forKey: "accessToken")
+                authRepository.save(accessToken: newValue)
             } else {
-                keychain.delete("accessToken")
+                authRepository.removeAccessToken()
             }
         }
     }
     
     private var refreshToken: String? {
         get {
-            return keychain.get("refreshToken")
+            return authRepository.getRefreshToken()
         }
         set {
             if let newValue = newValue {
-                keychain.set(newValue, forKey: "refreshToken")
+                authRepository.save(refreshToken: newValue)
             } else {
-                keychain.delete("refreshToken")
+                authRepository.removeRefreshToken()
             }
         }
     }
@@ -177,8 +179,7 @@ final class AuthManager {
     }
     
     public func signOut(completion: @escaping (Bool) -> Void) {
-        accessToken = nil
-        refreshToken = nil
+        authRepository.removeAllTokens()
         tokenExpirationDate = nil
         refreshAccessToken { success in
             completion(success)
@@ -188,10 +189,10 @@ final class AuthManager {
 // MARK: - Private Methods
 
     private func cacheToken(result: AuthResponse) {
-        accessToken = result.accessToken
-        
+        authRepository.save(accessToken: result.accessToken)
+
         if let refreshToken = result.refreshToken {
-            self.refreshToken = refreshToken
+            authRepository.save(refreshToken: refreshToken)
         }
         
         tokenExpirationDate = Date().addingTimeInterval(TimeInterval(result.expiresIn))

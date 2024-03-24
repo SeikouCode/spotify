@@ -7,9 +7,15 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+class SettingsViewController: BaseViewController {
     
     private var sections = [Section]()
+    private var currentLanguage: SupportedLanguages? {
+        didSet {
+            guard let currentLanguage else { return }
+            didChange(language: currentLanguage)
+        }
+    }
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -22,11 +28,52 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBar()
         setupViews()
         setupData()
     }
     
+    override func setupTitles() {
+        title = "Settings".localized
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: "icon_language"),
+            style: .done,
+            target: self,
+            action: #selector(didTapLanguage)
+        )
+    }
+    
+    @objc
+    private func didTapLanguage() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        SupportedLanguages.all.forEach { language in
+            alert.addAction(
+                .init(
+                    title: language.localizedTitle,
+                    style: .default,
+                    handler: { [weak self] _ in
+                        self?.currentLanguage = language
+                    }
+                )
+            )
+        }
+        
+        alert.addAction(.init(title: "Cancel".localized, style: .cancel))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func didChange(language: SupportedLanguages) {
+        Bundle.setLanguage(language: language.rawValue)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: NSNotification.Name("language"), object: nil)
+        }
+    }
+    
     private func setupViews() {
+        title = "Settings".localized
         view.backgroundColor = .black
         
         view.addSubview(tableView)
